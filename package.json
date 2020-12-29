@@ -1,0 +1,13 @@
+{
+  "name": "kontrolio-cli",
+  "version": "0.0.0",
+  "main": "",
+  "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "get": "GO111MODULE=on go get --",
+    "removeunused": "go mod tidy",
+    "build": "go build -o ./dist/main ./src",
+    "start": "yarn build && ./dist/main --"
+  }
+}
