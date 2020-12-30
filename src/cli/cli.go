@@ -11,6 +11,8 @@ import (
 )
 
 func Kontrolio() {
+	config.ConfigNetworkMode()
+
 	cli.VersionPrinter = func(ctx *cli.Context) {
 		fmt.Printf("version=%s\n", ctx.App.Version)
 	}
@@ -25,9 +27,8 @@ func Kontrolio() {
 				Name:    "punch",
 				Aliases: []string{"p"},
 				Usage:   "punch your clock",
-				Action: func(c *cli.Context) error {
-					config := config.GetConfig()
-					fmt.Println(config.ApiKey)
+				Action: func(ctx *cli.Context) error {
+					punch()
 					return nil
 				},
 			},
@@ -35,8 +36,8 @@ func Kontrolio() {
 				Name:    "sync",
 				Aliases: []string{"s"},
 				Usage:   "sync offline and online records",
-				Action: func(c *cli.Context) error {
-					fmt.Println("sync")
+				Action: func(ctx *cli.Context) error {
+					sync()
 					return nil
 				},
 			},
