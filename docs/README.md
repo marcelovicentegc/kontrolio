@@ -6,11 +6,11 @@
 
 ## ✈️ Offline mode
 
-Kontrolio works offline by default. If you want to save your data on Kontrolio's platform, check the [online mode](#online-mode)
+Kontrolio works offline by default. If you want to save your data on Kontrolio's platform, check the [online mode](#-online-mode)
 
 ## 🌐 Online mode
 
-In order to register your data remotely on Kontrolio's database, you need to create an account on [kontrolio.com](https://kontrolio.com) and set the generated API Key on the [configuration file](#configuration).
+In order to register your data remotely on Kontrolio's database, you need to create an account on [kontrolio.com](https://kontrolio.com) and set the generated API Key on the [configuration file](#-configuration).
 
 ## 🧰 Configuration
 
