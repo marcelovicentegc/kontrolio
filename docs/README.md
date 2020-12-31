@@ -1,3 +1,5 @@
+![Build and test](https://github.com/marcelovicentegc/kontrolio-cli/workflows/Go/badge.svg)
+
 <p align="center">
   <img alt="kontrolio logo" src="../assets/logo.png" height="300" />
   <h3 align="center">kontrolio-cli</h3>
