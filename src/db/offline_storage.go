@@ -85,7 +85,7 @@ func GetOfflineRecords() []string {
 		cursor := bucket.Cursor()
 
 		for key, value := cursor.First(); key != nil; key, value = cursor.Next() {
-			records = append(records, fmt.Sprintf("key=>[%s], value=[%s]", key, value))
+			records = append(records, fmt.Sprintf("[%s],[%s]", key, value))
 		}
 
 		return nil
