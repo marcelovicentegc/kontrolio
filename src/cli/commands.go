@@ -3,9 +3,11 @@ package cli
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/marcelovicentegc/kontrolio-cli/src/config"
 	"github.com/marcelovicentegc/kontrolio-cli/src/db"
+	"github.com/marcelovicentegc/kontrolio-cli/src/utils"
 )
 
 func punch() {
@@ -24,10 +26,19 @@ func punch() {
 }
 
 func workdayStatus() {
+	today := utils.BeginningOfDay(time.Now())
+	tomorrow := today.AddDate(0, 0, 1)
+
 	if config.NETWORK_MODE.Status == config.OFFLINE {
+		var todaysRecords []string
 		records := db.GetOfflineRecords()
-		for index, record := range records {
-			fmt.Println(index, record)
+		for _, serializedRecord := range records {
+			record := utils.DeserializeOfflineRecord(serializedRecord)
+			if record.Time.After(today) && record.Time.Before(tomorrow) {
+				todaysRecords = append(todaysRecords, record.Type)
+				fmt.Printf("YES")
+			} else {
+			}
 		}
 		return
 	}

@@ -6,6 +6,8 @@ import (
 	"time"
 
 	"github.com/marcelovicentegc/kontrolio-cli/src/config"
+	"github.com/marcelovicentegc/kontrolio-cli/src/utils"
+
 	bolt "go.etcd.io/bbolt"
 )
 
@@ -44,19 +46,19 @@ func getDb() *bolt.DB {
 
 func SaveOfflineRecord() string {
 	db := getDb()
-	var recordType string
+	var record utils.Record
 
 	err := db.Update(func(transaction *bolt.Tx) error {
 		bucket := getBucket(transaction)
 
-		_, value := bucket.Cursor().Last()
+		_, recordType := bucket.Cursor().Last()
+		record = utils.Record{Time: time.Now(), Type: string(recordType)}
+		key, _ := utils.SerializeOfflineRecord(record)
 
-		recordType = string(value)
-
-		if recordType == PUNCHED_IN {
-			bucket.Put([]byte(time.Now().String()), []byte(PUNCHED_OUT))
+		if record.Type == PUNCHED_IN {
+			bucket.Put(key, []byte(PUNCHED_OUT))
 		} else {
-			bucket.Put([]byte(time.Now().String()), []byte(PUNCHED_IN))
+			bucket.Put(key, []byte(PUNCHED_IN))
 		}
 
 		return nil
@@ -68,7 +70,7 @@ func SaveOfflineRecord() string {
 
 	defer db.Close()
 
-	if recordType == PUNCHED_IN {
+	if record.Type == PUNCHED_IN {
 		return PUNCHED_OUT
 	} else {
 		return PUNCHED_IN
