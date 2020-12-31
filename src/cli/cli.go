@@ -29,6 +29,7 @@ func Kontrolio() {
 				Usage:   "punch your clock",
 				Action: func(ctx *cli.Context) error {
 					punch()
+					workdayStatus()
 					return nil
 				},
 			},
