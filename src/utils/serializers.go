@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"log"
 	"strings"
 	"time"
@@ -13,7 +12,6 @@ type Record struct {
 }
 
 func SerializeOfflineRecord(record Record) ([]byte, []byte) {
-	fmt.Println(record.Time.Format(time.RFC3339))
 	return []byte(record.Time.Format(time.RFC3339)), []byte(record.Type)
 }
 
