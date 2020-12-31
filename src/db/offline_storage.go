@@ -53,7 +53,7 @@ func SaveOfflineRecord() string {
 
 		_, recordType := bucket.Cursor().Last()
 		record = utils.Record{Time: time.Now().In(time.Local), Type: string(recordType)}
-		key, _ := utils.SerializeOfflineRecord(record)
+		key, _ := utils.ByteSerializeOfflineRecord(record)
 
 		if record.Type == PUNCHED_IN {
 			bucket.Put(key, []byte(PUNCHED_OUT))
@@ -87,7 +87,7 @@ func GetOfflineRecords() []string {
 		cursor := bucket.Cursor()
 
 		for key, value := cursor.First(); key != nil; key, value = cursor.Next() {
-			records = append(records, fmt.Sprintf("[%s],[%s]", key, value))
+			records = append(records, utils.SerializeOfflineRecord(key, value))
 		}
 
 		return nil
