@@ -52,7 +52,7 @@ func SaveOfflineRecord() string {
 		bucket := getBucket(transaction)
 
 		_, recordType := bucket.Cursor().Last()
-		record = utils.Record{Time: time.Now(), Type: string(recordType)}
+		record = utils.Record{Time: time.Now().In(time.Local), Type: string(recordType)}
 		key, _ := utils.SerializeOfflineRecord(record)
 
 		if record.Type == PUNCHED_IN {
