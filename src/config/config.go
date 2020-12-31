@@ -28,3 +28,11 @@ func GetConfig() *Config {
 
 	return config
 }
+
+func ConfigNetworkMode() {
+	checkConnection()
+
+	if NETWORK_MODE.Status == ONLINE {
+		checkConfigFileExistence()
+	}
+}

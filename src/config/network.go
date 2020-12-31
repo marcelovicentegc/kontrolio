@@ -2,7 +2,6 @@ package config
 
 import (
 	"net/http"
-	"os"
 )
 
 type NetworkMode struct {
@@ -41,21 +40,4 @@ func checkConnection() {
 	}
 
 	setNetworkMode(NetworkMode{OFFLINE, SERVICE_IS_DOWN})
-}
-
-func checkConfigFileExistence() {
-	filePath := getConfigFilePath()
-
-	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		setNetworkMode(NetworkMode{OFFLINE, CONFIG_IS_MISSING})
-		return
-	}
-}
-
-func ConfigNetworkMode() {
-	checkConnection()
-
-	if NETWORK_MODE.Status == ONLINE {
-		checkConfigFileExistence()
-	}
 }

@@ -33,6 +33,15 @@ func Kontrolio() {
 				},
 			},
 			{
+				Name:    "workday",
+				Aliases: []string{"w"},
+				Usage:   "check how many hours have you worked today",
+				Action: func(ctx *cli.Context) error {
+					workdayStatus()
+					return nil
+				},
+			},
+			{
 				Name:    "sync",
 				Aliases: []string{"s"},
 				Usage:   "sync offline and online records",

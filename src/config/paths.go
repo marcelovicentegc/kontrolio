@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+	"os"
 	"os/user"
 )
 
@@ -18,6 +19,15 @@ func getConfigFilePath() string {
 	homePath := getHomePath()
 	filename := ".kontrolio.yaml"
 	return homePath + filename
+}
+
+func checkConfigFileExistence() {
+	filePath := getConfigFilePath()
+
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		setNetworkMode(NetworkMode{OFFLINE, CONFIG_IS_MISSING})
+		return
+	}
 }
 
 func GetLocalDataStorePath() string {

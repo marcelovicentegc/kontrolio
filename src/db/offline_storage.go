@@ -11,8 +11,8 @@ import (
 
 const BUCKET_NAME = "KontrolioBucket"
 const (
-	PUNCHED_IN  = "PUNCHED_IN"
-	PUNCHED_OUT = "PUNCHED_OUT"
+	PUNCHED_IN  = "punched in"
+	PUNCHED_OUT = "punched out"
 )
 
 func getBucket(transaction *bolt.Tx) *bolt.Bucket {
@@ -42,19 +42,20 @@ func getDb() *bolt.DB {
 	return db
 }
 
-func SaveRecord() {
+func SaveOfflineRecord() string {
 	db := getDb()
+	var recordType string
 
 	err := db.Update(func(transaction *bolt.Tx) error {
 		bucket := getBucket(transaction)
 
 		_, value := bucket.Cursor().Last()
 
-		recordType := string(value)
+		recordType = string(value)
 
 		if recordType == PUNCHED_IN {
 			bucket.Put([]byte(time.Now().String()), []byte(PUNCHED_OUT))
-		} else if recordType == PUNCHED_OUT {
+		} else {
 			bucket.Put([]byte(time.Now().String()), []byte(PUNCHED_IN))
 		}
 
@@ -66,8 +67,35 @@ func SaveRecord() {
 	}
 
 	defer db.Close()
+
+	if recordType == PUNCHED_IN {
+		return PUNCHED_OUT
+	} else {
+		return PUNCHED_IN
+	}
 }
 
-func cursorIterator(key []byte, value []byte, iterator int) (k []byte, v []byte, i int) {
-	return key, value, iterator
+func GetOfflineRecords() []string {
+	db := getDb()
+	var records []string
+
+	err := db.View(func(transaction *bolt.Tx) error {
+		bucket := getBucket(transaction)
+
+		cursor := bucket.Cursor()
+
+		for key, value := cursor.First(); key != nil; key, value = cursor.Next() {
+			records = append(records, fmt.Sprintf("key=>[%s], value=[%s]", key, value))
+		}
+
+		return nil
+	})
+
+	defer db.Close()
+
+	if err != nil {
+		log.Fatalf("failure : %s\n", err)
+	}
+
+	return records
 }

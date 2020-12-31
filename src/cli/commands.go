@@ -9,13 +9,34 @@ import (
 )
 
 func punch() {
-	db.SaveRecord()
+	if config.NETWORK_MODE.Status == config.OFFLINE {
+		recordType := db.SaveOfflineRecord()
+		fmt.Println(recordType + " sucessfully.")
+		return
+	}
 
 	if config.NETWORK_MODE.Status == config.ONLINE {
 		appConfig := config.GetConfig()
-		fmt.Println(appConfig.ApiKey)
+		fmt.Println("You're online with the " + appConfig.ApiKey + " API key!")
 
-		// TODO: Hit the server and save data there
+		// TODO: Sync remote and local data, then save record remotely and locally.
+	}
+}
+
+func workdayStatus() {
+	if config.NETWORK_MODE.Status == config.OFFLINE {
+		records := db.GetOfflineRecords()
+		for index, record := range records {
+			fmt.Println(index, record)
+		}
+		return
+	}
+
+	if config.NETWORK_MODE.Status == config.ONLINE {
+		appConfig := config.GetConfig()
+		fmt.Println("You're online with the " + appConfig.ApiKey + " API key!")
+
+		// TODO: Get workday status from remote database.
 	}
 }
 
