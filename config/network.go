@@ -2,6 +2,8 @@ package config
 
 import (
 	"net/http"
+
+	"github.com/marcelovicentegc/kontrolio-cli/messages"
 )
 
 type NetworkMode struct {
@@ -28,7 +30,7 @@ func setNetworkMode(networkMode NetworkMode) {
 }
 
 func checkConnection() {
-	res, err := http.Get("https://api.kontrolio.com")
+	res, err := http.Get(messages.KONTROLIO_API_URL)
 	if err != nil {
 		setNetworkMode(NetworkMode{OFFLINE, NETWORK_IS_DOWN})
 		return

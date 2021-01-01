@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/marcelovicentegc/kontrolio-cli/config"
+	"github.com/marcelovicentegc/kontrolio-cli/messages"
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 
 	bolt "go.etcd.io/bbolt"
@@ -20,7 +21,7 @@ const (
 func getBucket(transaction *bolt.Tx) *bolt.Bucket {
 	bucket := transaction.Bucket([]byte(BUCKET_NAME))
 	if bucket == nil {
-		fmt.Println("Bucket doesn't exist, creating it...")
+		fmt.Println(messages.CREATING_BUCKET)
 		newBucket, err := transaction.CreateBucketIfNotExists([]byte(BUCKET_NAME))
 
 		if err != nil {
@@ -96,7 +97,7 @@ func GetOfflineRecords() []string {
 	defer db.Close()
 
 	if err != nil {
-		log.Fatalf("failure : %s\n", err)
+		log.Fatal(err)
 	}
 
 	return records

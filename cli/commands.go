@@ -7,13 +7,14 @@ import (
 
 	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/marcelovicentegc/kontrolio-cli/db"
+	"github.com/marcelovicentegc/kontrolio-cli/messages"
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 )
 
 func punch() {
 	if config.NETWORK_MODE.Status == config.OFFLINE {
 		recordType := db.SaveOfflineRecord()
-		fmt.Println(recordType + " sucessfully.")
+		fmt.Println(recordType + messages.PUNCH_SUCCESS)
 		return
 	}
 
@@ -74,7 +75,7 @@ func workdayStatus() {
 			}
 		}
 
-		fmt.Print("\nToday, you've worked: ")
+		fmt.Print(messages.WORKDAY_STATUS)
 		fmt.Println(time.Duration(nanoseconds).String() + "\n")
 
 		return
@@ -91,15 +92,15 @@ func workdayStatus() {
 func sync() {
 	if config.NETWORK_MODE.Status == config.OFFLINE {
 		if config.NETWORK_MODE.Reason == config.NETWORK_IS_DOWN {
-			log.Fatal("You need to be connected to the internet in order to sync your offline and online data.")
+			log.Fatal(messages.SYNC_OFFLINE)
 		}
 
 		if config.NETWORK_MODE.Reason == config.SERVICE_IS_DOWN {
-			log.Fatal("Sorry. We can't sync your offline and online data right now because the service is unavailable.")
+			log.Fatal(messages.SYNC_SERVICE_DOWN)
 		}
 
 		if config.NETWORK_MODE.Reason == config.CONFIG_IS_MISSING {
-			log.Fatal("You need to have a configuration file set in order to sync your offline and online data.")
+			log.Fatal(messages.SYNC_CONFIG_MISSING)
 		}
 	}
 

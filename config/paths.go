@@ -4,6 +4,8 @@ import (
 	"log"
 	"os"
 	"os/user"
+
+	"github.com/marcelovicentegc/kontrolio-cli/messages"
 )
 
 func getHomePath() string {
@@ -17,7 +19,7 @@ func getHomePath() string {
 
 func getConfigFilePath() string {
 	homePath := getHomePath()
-	filename := ".kontrolio.yaml"
+	filename := messages.KONTROLIO_CONFIG_FILENAME
 	return homePath + filename
 }
 
@@ -32,6 +34,6 @@ func checkConfigFileExistence() {
 
 func GetLocalDataStorePath() string {
 	homePath := getHomePath()
-	dbName := ".kontrolio.db"
+	dbName := messages.KONTROLIO_DB_FILENAME
 	return homePath + dbName
 }
