@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/marcelovicentegc/kontrolio-cli/src/config"
-	"github.com/marcelovicentegc/kontrolio-cli/src/utils"
+	"github.com/marcelovicentegc/kontrolio-cli/config"
+	"github.com/marcelovicentegc/kontrolio-cli/utils"
 
 	bolt "go.etcd.io/bbolt"
 )

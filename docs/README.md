@@ -6,6 +6,10 @@
   <p align="center">Kontrolio's CLI time clock, clock card machine, punch clock, or time recorder.</p>
 </p>
 
+## Installation
+
+- [You can download the binaries for Linux (64 and 32 bit) and macOS here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
+
 ## ✈️ Offline mode
 
 Kontrolio works offline by default. If you want to save your data on Kontrolio's platform, check the [online mode](#-online-mode)

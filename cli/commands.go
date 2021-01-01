@@ -5,9 +5,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/marcelovicentegc/kontrolio-cli/src/config"
-	"github.com/marcelovicentegc/kontrolio-cli/src/db"
-	"github.com/marcelovicentegc/kontrolio-cli/src/utils"
+	"github.com/marcelovicentegc/kontrolio-cli/config"
+	"github.com/marcelovicentegc/kontrolio-cli/db"
+	"github.com/marcelovicentegc/kontrolio-cli/utils"
 )
 
 func punch() {

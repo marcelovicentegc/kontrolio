@@ -7,7 +7,7 @@
   "scripts": {
     "get": "GO111MODULE=on go get --",
     "removeunused": "go mod tidy",
-    "build": "go build -o ./dist/main ./src",
+    "build": "go build -o ./dist/main .",
     "start": "yarn build && ./dist/main"
   },
   "husky": {

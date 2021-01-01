@@ -6,7 +6,7 @@ import (
 	"os"
 	"sort"
 
-	"github.com/marcelovicentegc/kontrolio-cli/src/config"
+	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/urfave/cli/v2"
 )
 
