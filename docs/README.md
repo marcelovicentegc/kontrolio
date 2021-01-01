@@ -20,7 +20,12 @@ In order to register your data remotely on Kontrolio's database, you need to cre
 
 ## 🧰 Configuration
 
-Kontrolio has a [configuration](../.kontrolio.example.yaml) file that allows you to configure it. This is optional, you don't need to create this file unless you want to customize some default behavior.
+| Functionality      | Enabled by default |
+| ------------------ | ------------------ |
+| Saves data offline | ✔️                 |
+| Saves data online  | opt-in             |
+
+Kontrolio has a [configuration file](../.kontrolio.example.yaml) that allows you to configure it. This is optional, you don't need to create this file unless you want to customize some default behavior.
 
 The file must be named `.kontrolio.yaml`. Kontrolio looks for
 this file in your home directory (`/home/marcelo` on Linux, `/Users/Marcelo` on macOs, `C:\Users\Marcelo` on Windows).
