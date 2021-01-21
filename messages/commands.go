@@ -6,4 +6,6 @@ const (
 	SYNC_CONFIG_MISSING = "You need to have a configuration file set in order to sync your offline and online data."
 	WORKDAY_STATUS      = "\nToday, you've worked: "
 	PUNCH_SUCCESS       = " sucessfully."
+	YOURE_ONLINE        = "\n🌐 You're online.\n"
+	YOURE_OFFLINE       = "\n✈️ You're offline.\n"
 )

@@ -30,3 +30,10 @@ func DeserializeOfflineRecord(record string) Record {
 
 	return Record{Time: time, Type: splitRecord[1]}
 }
+
+func ReverseRecords(input []Record) []Record {
+	if len(input) == 0 {
+		return input
+	}
+	return append(ReverseRecords(input[1:]), input[0])
+}

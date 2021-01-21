@@ -13,14 +13,15 @@ import (
 
 func punch() {
 	if config.NETWORK_MODE.Status == config.OFFLINE {
+		fmt.Println(messages.YOURE_OFFLINE)
 		recordType := db.SaveOfflineRecord()
-		fmt.Println(recordType + messages.PUNCH_SUCCESS)
+		fmt.Println(recordType + messages.PUNCH_SUCCESS + "\n")
 		return
 	}
 
 	if config.NETWORK_MODE.Status == config.ONLINE {
-		appConfig := config.GetConfig()
-		fmt.Println("You're online with the " + appConfig.ApiKey + " API key!")
+		// appConfig := config.GetConfig()
+		fmt.Println(messages.YOURE_ONLINE)
 
 		// TODO: Sync remote and local data, then save record remotely and locally.
 	}
@@ -82,8 +83,8 @@ func workdayStatus() {
 	}
 
 	if config.NETWORK_MODE.Status == config.ONLINE {
-		appConfig := config.GetConfig()
-		fmt.Println("You're online with the " + appConfig.ApiKey + " API key!")
+		// appConfig := config.GetConfig()
+		fmt.Println(messages.YOURE_ONLINE)
 
 		// TODO: Get workday status from remote database.
 	}
@@ -105,4 +106,40 @@ func sync() {
 	}
 
 	// TODO: Sync records
+}
+
+func getLogs() {
+	if config.NETWORK_MODE.Status == config.OFFLINE {
+		fmt.Println(messages.YOURE_OFFLINE)
+
+		records := db.GetOfflineRecords()
+
+		var parsedRecords []utils.Record
+		var currentDay *time.Time
+
+		for _, serializedRecord := range records {
+			record := utils.DeserializeOfflineRecord(serializedRecord)
+			parsedRecords = append(parsedRecords, record)
+		}
+
+		parsedRecords = utils.ReverseRecords(parsedRecords)
+
+		for _, parsedRecord := range parsedRecords {
+			if currentDay == nil {
+				beginningOfDay := utils.BeginningOfDay(parsedRecord.Time)
+				currentDay = &beginningOfDay
+				fmt.Println(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850))
+			}
+
+			if parsedRecord.Time.Before(*currentDay) {
+				beginningOfDay := utils.BeginningOfDay(parsedRecord.Time)
+				currentDay = &beginningOfDay
+				fmt.Println(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850))
+			}
+
+			fmt.Println(string(utils.ColorReset), parsedRecord.Time.Format(time.RFC3339)+" "+parsedRecord.Type)
+		}
+
+		fmt.Println()
+	}
 }
