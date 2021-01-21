@@ -128,16 +128,16 @@ func getLogs() {
 			if currentDay == nil {
 				beginningOfDay := utils.BeginningOfDay(parsedRecord.Time)
 				currentDay = &beginningOfDay
-				fmt.Println(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850))
+				fmt.Println(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850), string(utils.ColorReset))
 			}
 
 			if parsedRecord.Time.Before(*currentDay) {
 				beginningOfDay := utils.BeginningOfDay(parsedRecord.Time)
 				currentDay = &beginningOfDay
-				fmt.Println(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850))
+				fmt.Println(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850), string(utils.ColorReset))
 			}
 
-			fmt.Println(string(utils.ColorReset), parsedRecord.Time.Format(time.RFC3339)+" "+parsedRecord.Type)
+			fmt.Println(parsedRecord.Time.Format(time.RFC3339) + " " + parsedRecord.Type)
 		}
 
 		fmt.Println()
