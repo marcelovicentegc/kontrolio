@@ -13,10 +13,20 @@ import (
 )
 
 const BUCKET_NAME = "KontrolioBucket"
-const (
-	PUNCHED_IN  = "punched in"
-	PUNCHED_OUT = "punched out"
-)
+
+type recordTypeRegistry struct {
+	In  string
+	Out string
+}
+
+func newRecordTypeRegistry() *recordTypeRegistry {
+	return &recordTypeRegistry{
+		In:  "IN",
+		Out: "OUT",
+	}
+}
+
+var RecordTypeRegistry = newRecordTypeRegistry()
 
 func getBucket(transaction *bolt.Tx) *bolt.Bucket {
 	bucket := transaction.Bucket([]byte(BUCKET_NAME))
@@ -56,10 +66,10 @@ func SaveOfflineRecord() string {
 		record = utils.Record{Time: time.Now().In(time.Local), Type: string(recordType)}
 		key, _ := utils.ByteSerializeOfflineRecord(record)
 
-		if record.Type == PUNCHED_IN {
-			bucket.Put(key, []byte(PUNCHED_OUT))
+		if record.Type == RecordTypeRegistry.In {
+			bucket.Put(key, []byte(RecordTypeRegistry.Out))
 		} else {
-			bucket.Put(key, []byte(PUNCHED_IN))
+			bucket.Put(key, []byte(RecordTypeRegistry.In))
 		}
 
 		return nil
@@ -71,10 +81,10 @@ func SaveOfflineRecord() string {
 
 	defer db.Close()
 
-	if record.Type == PUNCHED_IN {
-		return PUNCHED_OUT
+	if record.Type == RecordTypeRegistry.In {
+		return RecordTypeRegistry.Out
 	} else {
-		return PUNCHED_IN
+		return RecordTypeRegistry.In
 	}
 }
 

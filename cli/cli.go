@@ -29,7 +29,7 @@ func Kontrolio() {
 				Usage:   "punch your clock",
 				Action: func(ctx *cli.Context) error {
 					punch()
-					workdayStatus()
+					workdayStatus(false)
 					return nil
 				},
 			},
@@ -38,7 +38,7 @@ func Kontrolio() {
 				Aliases: []string{"w"},
 				Usage:   "check how many hours have you worked today",
 				Action: func(ctx *cli.Context) error {
-					workdayStatus()
+					workdayStatus(true)
 					return nil
 				},
 			},

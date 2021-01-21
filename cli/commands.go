@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/marcelovicentegc/kontrolio-cli/client"
 	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/marcelovicentegc/kontrolio-cli/db"
 	"github.com/marcelovicentegc/kontrolio-cli/messages"
@@ -15,19 +16,22 @@ func punch() {
 	if config.NETWORK_MODE.Status == config.OFFLINE {
 		fmt.Println(messages.YOURE_OFFLINE)
 		recordType := db.SaveOfflineRecord()
-		fmt.Println(recordType + messages.PUNCH_SUCCESS + "\n")
+		fmt.Println("Punched " + recordType + messages.PUNCH_SUCCESS + "\n")
 		return
 	}
 
 	if config.NETWORK_MODE.Status == config.ONLINE {
-		// appConfig := config.GetConfig()
+		appConfig := config.GetConfig()
 		fmt.Println(messages.YOURE_ONLINE)
 
 		// TODO: Sync remote and local data, then save record remotely and locally.
+
+		recordType := client.CreateRecord(appConfig.ApiKey)
+		fmt.Println("Punched " + recordType + messages.PUNCH_SUCCESS + "\n")
 	}
 }
 
-func workdayStatus() {
+func workdayStatus(calledAlone bool) {
 	today := utils.BeginningOfDay(time.Now())
 	tomorrow := today.AddDate(0, 0, 1)
 
@@ -49,7 +53,7 @@ func workdayStatus() {
 			// Covers the cases where the client has punched in but haven't
 			// punched out yet, so we compute how much time has passed
 			// between when it punched in and now.
-			if index == (len(todaysRecords)-1) && record.Type == db.PUNCHED_IN {
+			if index == (len(todaysRecords)-1) && record.Type == db.RecordTypeRegistry.In {
 				nanoseconds = nanoseconds + utils.SubtractTime(record.Time, time.Now())
 				continue
 			}
@@ -57,18 +61,18 @@ func workdayStatus() {
 			// Covers the case where the client has punched in yesterday,
 			// but punched out today. Example: you staretd working yesterday
 			// @ 11PM, but only stopped working today @ 2AM.
-			if index == 0 && record.Type == db.PUNCHED_OUT {
+			if index == 0 && record.Type == db.RecordTypeRegistry.Out {
 				openedRecordIndex := utils.IndexOf(records, serializedTodaysRecord)
 				openedRecord := utils.DeserializeOfflineRecord(records[openedRecordIndex])
 
-				if openedRecord.Type == db.PUNCHED_IN {
+				if openedRecord.Type == db.RecordTypeRegistry.In {
 					nanoseconds = utils.SubtractTime(record.Time, openedRecord.Time)
 				}
 
 				continue
 			}
 
-			if record.Type == db.PUNCHED_OUT {
+			if record.Type == db.RecordTypeRegistry.Out {
 				openedRecord := utils.DeserializeOfflineRecord(todaysRecords[index-1])
 				nanoseconds = nanoseconds + utils.SubtractTime(openedRecord.Time, record.Time)
 
@@ -84,7 +88,9 @@ func workdayStatus() {
 
 	if config.NETWORK_MODE.Status == config.ONLINE {
 		// appConfig := config.GetConfig()
-		fmt.Println(messages.YOURE_ONLINE)
+		if calledAlone {
+			fmt.Println(messages.YOURE_ONLINE)
+		}
 
 		// TODO: Get workday status from remote database.
 	}
@@ -101,6 +107,10 @@ func sync() {
 		}
 
 		if config.NETWORK_MODE.Reason == config.CONFIG_IS_MISSING {
+			log.Fatal(messages.SYNC_CONFIG_MISSING)
+		}
+
+		if config.NETWORK_MODE.Reason == config.API_KEY_IS_MISSING {
 			log.Fatal(messages.SYNC_CONFIG_MISSING)
 		}
 	}

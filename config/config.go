@@ -7,6 +7,12 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+const (
+	KONTROLIO_HEALTH_CHECK    = "https://kontrolio.com/api/ht"
+	KONTROLIO_CONFIG_FILENAME = ".kontrolio.yaml"
+	KONTROLIO_DB_FILENAME     = ".kontrolio.db"
+)
+
 type Config struct {
 	ApiKey string `yaml:"api_key"`
 }
@@ -33,6 +39,6 @@ func ConfigNetworkMode() {
 	checkConnection()
 
 	if NETWORK_MODE.Status == ONLINE {
-		checkConfigFileExistence()
+		checkConfigFile()
 	}
 }

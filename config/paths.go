@@ -4,8 +4,6 @@ import (
 	"log"
 	"os"
 	"os/user"
-
-	"github.com/marcelovicentegc/kontrolio-cli/messages"
 )
 
 func getHomePath() string {
@@ -19,21 +17,29 @@ func getHomePath() string {
 
 func getConfigFilePath() string {
 	homePath := getHomePath()
-	filename := messages.KONTROLIO_CONFIG_FILENAME
+	filename := KONTROLIO_CONFIG_FILENAME
 	return homePath + filename
 }
 
-func checkConfigFileExistence() {
+func checkConfigFile() {
 	filePath := getConfigFilePath()
 
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		setNetworkMode(NetworkMode{OFFLINE, CONFIG_IS_MISSING})
 		return
 	}
+
+	config := &Config{}
+
+	config = GetConfig()
+
+	if config.ApiKey == "" {
+		setNetworkMode(NetworkMode{OFFLINE, API_KEY_IS_MISSING})
+	}
 }
 
 func GetLocalDataStorePath() string {
 	homePath := getHomePath()
-	dbName := messages.KONTROLIO_DB_FILENAME
+	dbName := KONTROLIO_DB_FILENAME
 	return homePath + dbName
 }
