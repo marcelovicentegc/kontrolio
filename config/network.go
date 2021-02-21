@@ -7,6 +7,7 @@ import (
 type NetworkMode struct {
 	Status int
 	Reason int
+	IsProduction int
 }
 
 const (
@@ -20,25 +21,38 @@ const (
 	CONFIG_IS_MISSING  = iota
 	API_KEY_IS_MISSING = iota
 	NA                 = iota
+	IS_PROD_ENVIRONMENT = iota
 )
 
-var NETWORK_MODE = NetworkMode{OFFLINE, NA}
+var NETWORK_MODE = NetworkMode{OFFLINE, NA, NA}
 
 func setNetworkMode(networkMode NetworkMode) {
 	NETWORK_MODE = networkMode
 }
 
 func checkConnection() {
-	res, err := http.Get(KONTROLIO_HEALTH_CHECK)
+	var healthCheckEndpoint string
+	var isProd int
+
+	if (IsDevEnvironment()) {
+		isProd = NA
+		healthCheckEndpoint = KONTROLIO_HEALTH_CHECK_LOCAL
+	} else {
+		isProd = IS_PROD_ENVIRONMENT
+		healthCheckEndpoint = KONTROLIO_HEALTH_CHECK
+	}
+
+	res, err := http.Get(healthCheckEndpoint)
+
 	if err != nil {
-		setNetworkMode(NetworkMode{OFFLINE, NETWORK_IS_DOWN})
+		setNetworkMode(NetworkMode{OFFLINE, NETWORK_IS_DOWN, isProd})
 		return
 	}
 
 	if res.StatusCode == 200 {
-		setNetworkMode(NetworkMode{ONLINE, NA})
+		setNetworkMode(NetworkMode{ONLINE, NA, isProd})
 		return
 	}
 
-	setNetworkMode(NetworkMode{OFFLINE, SERVICE_IS_DOWN})
+	setNetworkMode(NetworkMode{OFFLINE, SERVICE_IS_DOWN, isProd})
 }

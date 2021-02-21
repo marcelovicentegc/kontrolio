@@ -25,7 +25,7 @@ func checkConfigFile() {
 	filePath := getConfigFilePath()
 
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		setNetworkMode(NetworkMode{OFFLINE, CONFIG_IS_MISSING})
+		setNetworkMode(NetworkMode{OFFLINE, CONFIG_IS_MISSING, NA})
 		return
 	}
 
@@ -34,7 +34,7 @@ func checkConfigFile() {
 	config = GetConfig()
 
 	if config.ApiKey == "" {
-		setNetworkMode(NetworkMode{OFFLINE, API_KEY_IS_MISSING})
+		setNetworkMode(NetworkMode{OFFLINE, API_KEY_IS_MISSING, NA})
 	}
 }
 

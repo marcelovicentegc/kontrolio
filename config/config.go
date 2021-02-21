@@ -8,6 +8,7 @@ import (
 )
 
 const (
+	KONTROLIO_HEALTH_CHECK_LOCAL = "http://localhost:3000/api/ht"
 	KONTROLIO_HEALTH_CHECK    = "https://kontrolio.com/api/ht"
 	KONTROLIO_CONFIG_FILENAME = ".kontrolio.yaml"
 	KONTROLIO_DB_FILENAME     = ".kontrolio.db"
@@ -15,6 +16,7 @@ const (
 
 type Config struct {
 	ApiKey string `yaml:"api_key"`
+	Dev string `yaml:"dev"`
 }
 
 func GetConfig() *Config {
