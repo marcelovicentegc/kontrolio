@@ -3,16 +3,13 @@ package client
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
-)
 
-const (
-	BASE_URL         = "https://kontrolio.com/api/"
-	RECORD_ENDPOINT  = "record"
-	RECORDS_ENDPOINT = "records"
+	"github.com/marcelovicentegc/kontrolio-cli/config"
 )
 
 type errorBody struct {
@@ -28,17 +25,24 @@ type createRecordResponseBody struct {
 	Data ApiRecord `json:"data"`
 }
 
+type allRecordsResults struct {
+	Results []ApiRecord `json:"results"`
+}
+
+type getAllRecordsResponseBody struct {
+	Data allRecordsResults `json:"data"`
+}
+
+// CreateRecord creates an online record.
 func CreateRecord(apiKey string) string {
 
-	requestUrl := BASE_URL + RECORD_ENDPOINT
+	requestURL := config.GetBaseURL() + config.RecordEndpoint
 
 	now := time.Now().In(time.Local).Format(time.RFC3339)
 
 	jsonBytes := []byte(`{ "time": "` + now + `", "apiKey": "` + apiKey + `" }`)
 
-	request, err := http.NewRequest("POST", requestUrl, bytes.NewBuffer(jsonBytes))
-
-	// req.Header.Set("X-Custom-Header", "myvalue")
+	request, err := http.NewRequest("POST", requestURL, bytes.NewBuffer(jsonBytes))
 	request.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
@@ -74,4 +78,49 @@ func CreateRecord(apiKey string) string {
 	}
 
 	return responseBody.Data.RecordType
+}
+
+// GetAllRecords gets every record from the requesting user from the remote database.
+func GetAllRecords(apiKey string) []ApiRecord {
+	requestURL := config.GetBaseURL() + config.AllRecordsEndpoint
+
+	jsonBytes := []byte(apiKey)
+
+	request, err := http.NewRequest("POST", requestURL, bytes.NewBuffer(jsonBytes))
+	request.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+
+	response, err := client.Do(request)
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer response.Body.Close()
+
+	if response.StatusCode > 400 {
+		var responseBody errorBody
+
+		err := json.NewDecoder(response.Body).Decode(&responseBody)
+
+		if err != nil {
+			fmt.Println("Something went wrong while parsing the response body. [1]")
+			log.Fatal(err.Error())
+		}
+
+		log.Fatal(responseBody.Error + "\n")
+	}
+
+	var responseBody getAllRecordsResponseBody
+
+	body, _ := ioutil.ReadAll(response.Body)
+
+	err = json.Unmarshal(body, &responseBody)
+
+
+	if err != nil {
+		fmt.Println("Something went wrong while parsing the response body. [2]")
+		log.Fatal(err.Error())	}
+
+	return responseBody.Data.Results
 }

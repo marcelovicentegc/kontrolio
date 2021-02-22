@@ -9,6 +9,7 @@ const (
 	SYNC_API_KEY_MISSING = "You need to have an API key set on your configuration file in order to sync your offline and online data. Sign up @ https://kontrolio.com to get an API key."
 	WORKDAY_STATUS       = "\nToday, you've worked: "
 	PUNCH_SUCCESS        = " sucessfully."
+	DEV_ENVIRONMENT = "ATTENTION! You're online but this is a DEVELOPMENT environment."
 )
 
 var (

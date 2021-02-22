@@ -22,7 +22,7 @@ func punch() {
 
 	if config.NETWORK_MODE.Status == config.ONLINE {
 		appConfig := config.GetConfig()
-		fmt.Println(messages.YOURE_ONLINE)
+		utils.DisplayOnlineMessage(*appConfig)
 
 		// TODO: Sync remote and local data, then save record remotely and locally.
 
@@ -87,9 +87,9 @@ func workdayStatus(calledAlone bool) {
 	}
 
 	if config.NETWORK_MODE.Status == config.ONLINE {
-		// appConfig := config.GetConfig()
+		appConfig := config.GetConfig()
 		if calledAlone {
-			fmt.Println(messages.YOURE_ONLINE)
+			utils.DisplayOnlineMessage(*appConfig)
 		}
 
 		// TODO: Get workday status from remote database.
@@ -114,6 +114,27 @@ func sync() {
 			log.Fatal(messages.SYNC_CONFIG_MISSING)
 		}
 	}
+
+	appConfig := config.GetConfig()
+
+	utils.DisplayOnlineMessage(*appConfig)
+
+	offlineRecords := db.GetOfflineRecords()
+
+	var parsedOfflineRecords []utils.Record
+
+	for _, serializedOfflineRecord := range offlineRecords {
+		record := utils.DeserializeOfflineRecord(serializedOfflineRecord)
+		parsedOfflineRecords = append(parsedOfflineRecords, record)
+	}
+
+	parsedOfflineRecords = utils.ReverseRecords(parsedOfflineRecords)
+
+	println(parsedOfflineRecords)
+
+	onlineRecords := client.GetAllRecords(appConfig.ApiKey)
+
+	println(onlineRecords)
 
 	// TODO: Sync records
 }
