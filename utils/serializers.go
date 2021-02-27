@@ -37,3 +37,12 @@ func ReverseRecords(input []Record) []Record {
 	}
 	return append(ReverseRecords(input[1:]), input[0])
 }
+
+// ReverseStringArr reverses a given string array
+func ReverseStringArr(input []string) []string {
+	if len(input) == 0 {
+		return input
+	}
+
+	return append(ReverseStringArr(input[1:]), input[0])
+}

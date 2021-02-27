@@ -147,28 +147,31 @@ func getLogs() {
 
 		var parsedRecords []utils.Record
 		var currentDay *time.Time
+		var log []string
 
 		for _, serializedRecord := range records {
 			record := utils.DeserializeOfflineRecord(serializedRecord)
 			parsedRecords = append(parsedRecords, record)
 		}
 
-		parsedRecords = utils.ReverseRecords(parsedRecords)
-
 		for _, parsedRecord := range parsedRecords {
 			if currentDay == nil {
-				beginningOfDay := utils.BeginningOfDay(parsedRecord.Time)
-				currentDay = &beginningOfDay
-				fmt.Println(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850), string(utils.ColorReset))
+				endOfDay := utils.EndOfDay(parsedRecord.Time)
+				currentDay = &endOfDay
+				log = append(log, fmt.Sprintln(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850), string(utils.ColorReset)))
 			}
 
-			if parsedRecord.Time.Before(*currentDay) {
-				beginningOfDay := utils.BeginningOfDay(parsedRecord.Time)
-				currentDay = &beginningOfDay
-				fmt.Println(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850), string(utils.ColorReset))
+			if parsedRecord.Time.After(*currentDay) {
+				endOfDay := utils.EndOfDay(parsedRecord.Time)
+				currentDay = &endOfDay
+				log = append(log, fmt.Sprintln(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850), string(utils.ColorReset)))
 			}
 
-			fmt.Println(parsedRecord.Time.Format(time.RFC3339) + " " + parsedRecord.Type)
+			log = append(log, fmt.Sprintln(parsedRecord.Time.Format(time.RFC3339) + " " + parsedRecord.Type))
+		}
+		
+		for _, l := range log {
+			fmt.Print(l)
 		}
 
 		fmt.Println()
