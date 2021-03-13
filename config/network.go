@@ -4,6 +4,10 @@ import (
 	"net/http"
 )
 
+// NetworkMode holds the current status
+// of which the application is being ran,
+// as well as the reason for failures on
+// if it's in production.
 type NetworkMode struct {
 	Status int
 	Reason int

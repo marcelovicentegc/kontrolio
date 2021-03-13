@@ -19,6 +19,8 @@ type Config struct {
 	Dev string `yaml:"dev"`
 }
 
+// GetConfig finds and reads the configuration file, returning
+// its structured data
 func GetConfig() *Config {
 	filePath := getConfigFilePath()
 

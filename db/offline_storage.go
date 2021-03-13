@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/marcelovicentegc/kontrolio-cli/config"
-	"github.com/marcelovicentegc/kontrolio-cli/messages"
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 
 	bolt "go.etcd.io/bbolt"
@@ -31,7 +30,7 @@ var RecordTypeRegistry = newRecordTypeRegistry()
 func getBucket(transaction *bolt.Tx) *bolt.Bucket {
 	bucket := transaction.Bucket([]byte(BUCKET_NAME))
 	if bucket == nil {
-		fmt.Println(messages.CREATING_BUCKET)
+		fmt.Println(utils.CREATING_BUCKET)
 		newBucket, err := transaction.CreateBucketIfNotExists([]byte(BUCKET_NAME))
 
 		if err != nil {

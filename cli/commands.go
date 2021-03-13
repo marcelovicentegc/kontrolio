@@ -8,15 +8,14 @@ import (
 	"github.com/marcelovicentegc/kontrolio-cli/client"
 	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/marcelovicentegc/kontrolio-cli/db"
-	"github.com/marcelovicentegc/kontrolio-cli/messages"
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 )
 
 func punch() {
 	if config.NETWORK_MODE.Status == config.OFFLINE {
-		fmt.Println(messages.YOURE_OFFLINE)
+		fmt.Println(utils.YOURE_OFFLINE)
 		recordType := db.SaveOfflineRecord()
-		fmt.Println("Punched " + recordType + messages.PUNCH_SUCCESS + "\n")
+		fmt.Println(utils.FormatPunchMessage(recordType))
 		return
 	}
 
@@ -27,7 +26,7 @@ func punch() {
 		// TODO: Sync remote and local data, then save record remotely and locally.
 
 		recordType := client.CreateRecord(appConfig.ApiKey)
-		fmt.Println("Punched " + recordType + messages.PUNCH_SUCCESS + "\n")
+		fmt.Println(utils.FormatPunchMessage(recordType))
 	}
 }
 
@@ -80,7 +79,7 @@ func workdayStatus(calledAlone bool) {
 			}
 		}
 
-		fmt.Print(messages.WORKDAY_STATUS)
+		fmt.Print(utils.WORKDAY_STATUS)
 		fmt.Println(time.Duration(nanoseconds).String() + "\n")
 
 		return
@@ -99,19 +98,19 @@ func workdayStatus(calledAlone bool) {
 func sync() {
 	if config.NETWORK_MODE.Status == config.OFFLINE {
 		if config.NETWORK_MODE.Reason == config.NETWORK_IS_DOWN {
-			log.Fatal(messages.SYNC_OFFLINE)
+			log.Fatal(utils.SYNC_OFFLINE)
 		}
 
 		if config.NETWORK_MODE.Reason == config.SERVICE_IS_DOWN {
-			log.Fatal(messages.SYNC_SERVICE_DOWN)
+			log.Fatal(utils.SYNC_SERVICE_DOWN)
 		}
 
 		if config.NETWORK_MODE.Reason == config.CONFIG_IS_MISSING {
-			log.Fatal(messages.SYNC_CONFIG_MISSING)
+			log.Fatal(utils.SYNC_CONFIG_MISSING)
 		}
 
 		if config.NETWORK_MODE.Reason == config.API_KEY_IS_MISSING {
-			log.Fatal(messages.SYNC_CONFIG_MISSING)
+			log.Fatal(utils.SYNC_CONFIG_MISSING)
 		}
 	}
 
@@ -142,7 +141,7 @@ func sync() {
 
 func getLogs() {
 	if config.NETWORK_MODE.Status == config.OFFLINE {
-		fmt.Println(messages.YOURE_OFFLINE)
+		fmt.Println(utils.YOURE_OFFLINE)
 
 		records := db.GetOfflineRecords()
 
@@ -163,14 +162,12 @@ func getLogs() {
 			if currentDay == nil {
 				endOfDay := utils.EndOfDay(parsedRecord.Time)
 				currentDay = &endOfDay
-				log = append(log, fmt.Sprintln(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850), string(utils.ColorReset)))
+				log = append(log, utils.FormatLogMessageHeader(currentDay))
 			}
 
 			if parsedRecord.Time.After(*currentDay) {
-				log = append(log, fmt.Sprintln(string(
-					utils.ColorGreen), 
-					"Worked " + time.Duration(workNanoseconds).String() + " in a " + time.Duration(workWindowNanoseconds).String() + " work window.", 
-					string(utils.ColorReset),
+				log = append(log, 
+					utils.FormatLogMessageFooter(time.Duration(workNanoseconds).String(), time.Duration(workWindowNanoseconds).String(),
 				))
 				
 				// Resets time accumulators
@@ -179,7 +176,7 @@ func getLogs() {
 
 				endOfDay := utils.EndOfDay(parsedRecord.Time)
 				currentDay = &endOfDay
-				log = append(log, fmt.Sprintln(string(utils.ColorCyan), "\n"+currentDay.Format(time.RFC850), string(utils.ColorReset)))
+				log = append(log, utils.FormatLogMessageHeader(currentDay))
 			}
 
 			if (!isLastRecord && parsedRecords[index + 1].Time.Before(*currentDay)) {
@@ -205,13 +202,9 @@ func getLogs() {
 					workNanoseconds= workNanoseconds + utils.SubtractTime(parsedRecord.Time, time.Now())
 				}
 
-				log = append(
-					log, fmt.Sprintln(
-						string(utils.ColorGreen),
-						"Worked " + time.Duration(workNanoseconds).String() +  " in a " + time.Duration(workWindowNanoseconds).String() + " work window.", 
-						string(utils.ColorReset),
-					),
-				)
+				log = append(log, 
+					utils.FormatLogMessageFooter(time.Duration(workNanoseconds).String(), time.Duration(workWindowNanoseconds).String(),
+				))
 			}
 		}
 		

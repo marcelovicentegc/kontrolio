@@ -38,6 +38,8 @@ func checkConfigFile() {
 	}
 }
 
+// GetLocalDataStorePath returns Kontrolio's
+// local database path.
 func GetLocalDataStorePath() string {
 	homePath := getHomePath()
 	dbName := KONTROLIO_DB_FILENAME

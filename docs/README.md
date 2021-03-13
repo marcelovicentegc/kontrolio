@@ -35,4 +35,5 @@ This is how it should look like:
 ```yaml
 # Required if you want to save your data on Kontrolio's database.
 api_key: "YOUR_API_KEY"
+dev: false
 ```

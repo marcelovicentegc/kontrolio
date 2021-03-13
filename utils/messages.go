@@ -1,6 +1,10 @@
-package messages
+package utils
 
-import "github.com/kyokomi/emoji/v2"
+import (
+	"time"
+
+	"github.com/kyokomi/emoji/v2"
+)
 
 const (
 	SYNC_OFFLINE         = "You need to be connected to the internet in order to sync your offline and online data."
@@ -10,9 +14,22 @@ const (
 	WORKDAY_STATUS       = "\nToday, you've worked: "
 	PUNCH_SUCCESS        = " sucessfully."
 	DEV_ENVIRONMENT = "ATTENTION! You're online but this is a DEVELOPMENT environment."
+	CREATING_BUCKET = "\nBucket doesn't exist, creating it...\n"
 )
 
 var (
 	YOURE_ONLINE  = emoji.Sprint("\n:earth_americas:You're online.\n")
 	YOURE_OFFLINE = emoji.Sprint("\n:mobile_phone_off:You're offline.\n")
 )
+
+func FormatLogMessageFooter(workTime string, workWindowTime string) string {
+	return ColorGreen + "Worked " + workTime + " in a " + workWindowTime + " work window." + ColorReset + "\n"
+}
+
+func FormatPunchMessage(recordType string) string {
+	return "Punched " + recordType + PUNCH_SUCCESS + "\n"
+}
+
+func FormatLogMessageHeader(currentDay *time.Time) string {
+	return ColorCyan + "\n" + currentDay.Format(time.RFC850) + ColorReset
+}
