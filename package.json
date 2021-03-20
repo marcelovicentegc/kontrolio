@@ -1,9 +1,13 @@
 {
   "name": "@kontrolio/cli",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "main": "",
   "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ktrlio/kontrolio-cli"
+  },
   "bin": {
     "kontrolio": "./npm/run.js"
   },
@@ -16,8 +20,7 @@
     "removeunused": "go mod tidy",
     "build": "go build -o ./dist/main .",
     "start": "yarn build && ./dist/main",
-    "postinstall": "node npm/install.js",
-    "preinstall": "node npm/uninstall.js"
+    "postinstall": "node npm/install.js"
   },
   "husky": {
     "hooks": {
@@ -30,6 +33,7 @@
     "husky": "^4.3.6"
   },
   "dependencies": {
-    "binary-install": "^0.1.1"
+    "binary-install": "^0.1.1",
+    "console.table": "^0.10.0"
   }
 }

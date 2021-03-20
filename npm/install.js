@@ -1,2 +1,4 @@
-const binaries = require("./binaries");
-binaries.install();
+#!/usr/bin/env node
+
+const { install } = require("./binary");
+install();

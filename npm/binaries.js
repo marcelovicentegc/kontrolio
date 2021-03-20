@@ -1,23 +1,67 @@
 const { Binary } = require("binary-install");
 const os = require("os");
+const cTable = require("console.table");
 
-function getPlatform() {
+const error = (msg) => {
+  console.error(msg);
+  process.exit(1);
+};
+
+const { version, name, repository } = require("./package.json");
+
+const supportedPlatforms = [
+  {
+    TYPE: "Linux",
+    ARCHITECTURE: "x64",
+    GOLANG_TARGET: "linux_amd64",
+    BINARY_NAME: "kontrolio",
+  },
+  {
+    TYPE: "Darwin",
+    ARCHITECTURE: "x64",
+    RUST_TARGET: "darwin_amd64",
+    BINARY_NAME: "kontrolio",
+  },
+];
+
+const getPlatformMetadata = () => {
   const type = os.type();
-  const arch = os.arch();
+  const architecture = os.arch();
 
-  if (type === "Linux" && arch === "x64") return "linux_amd64";
-  if (type === "Darwin" && arch === "x64") return "darwin_amd64";
+  for (let index in supportedPlatforms) {
+    let supportedPlatform = supportedPlatforms[index];
+    if (
+      type === supportedPlatform.TYPE &&
+      architecture === supportedPlatform.ARCHITECTURE
+    ) {
+      return supportedPlatform;
+    }
+  }
 
-  throw new Error(`Unsupported platform: ${type} ${arch}`);
-}
+  error(
+    `Platform with type "${type}" and architecture "${architecture}" is not supported by ${name}.\nYour system must be one of the following:\n\n${cTable.getTable(
+      supportedPlatforms
+    )}`
+  );
+};
 
-const binaries = (function getBinaries() {
-  const platform = getPlatform();
-  const version = require("../package.json").version;
-  const url = `https://github.com/ktrlio/kontrolio-cli/releases/download/v${version}/kontrolio-cli_${version}_${platform}.tar.gz`;
-  const name = "kontrolio";
+const getBinary = () => {
+  const platformMetadata = getPlatformMetadata();
+  const url = `${repository.url}/releases/download/v${version}/kontrolio-cli_${version}_${platform}.tar.gz`;
+  return new Binary(platformMetadata.name, url);
+};
 
-  return new Binary(name, url);
-})();
+const run = () => {
+  const binary = getBinary();
+  binary.run();
+};
 
-module.exports = binaries;
+const install = () => {
+  const binary = getBinary();
+  binary.install();
+};
+
+module.exports = {
+  install,
+  run,
+};
