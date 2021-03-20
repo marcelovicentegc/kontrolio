@@ -1,6 +1,6 @@
 {
   "name": "@kontrolio/cli",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "main": "",
   "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
   "license": "MIT",
@@ -23,7 +23,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "post-commit": "git push --tags"
+      "pre-push": "git push --tags"
     }
   },
   "devDependencies": {
