@@ -10,7 +10,7 @@ import (
 )
 
 func logs() {
-	if config.NETWORK_MODE.Status == config.OFFLINE {
+	if config.Network.Status == config.Offline {
 		fmt.Println(utils.YOURE_OFFLINE)
 
 		records := db.GetOfflineRecords()

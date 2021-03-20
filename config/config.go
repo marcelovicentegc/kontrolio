@@ -8,10 +8,10 @@ import (
 )
 
 const (
-	KONTROLIO_HEALTH_CHECK_LOCAL = "http://localhost:3000/api/ht"
-	KONTROLIO_HEALTH_CHECK    = "https://kontrolio.com/api/ht"
-	KONTROLIO_CONFIG_FILENAME = ".kontrolio.yaml"
-	KONTROLIO_DB_FILENAME     = ".kontrolio.db"
+	KontrolioHealthCheckLocal = "http://localhost:3000/api/ht"
+	KontrolioHealthCheck    = "https://kontrolio.com/api/ht"
+	KontrolioConfigFilename = ".kontrolio.yaml"
+	KontrolioDatabaseFilename     = ".kontrolio.db"
 )
 
 type Config struct {
@@ -42,7 +42,7 @@ func GetConfig() *Config {
 func ConfigNetworkMode() {
 	checkConnection()
 
-	if NETWORK_MODE.Status == ONLINE {
+	if Network.Status == Online {
 		checkConfigFile()
 	}
 }

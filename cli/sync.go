@@ -10,20 +10,20 @@ import (
 )
 
 func sync() {
-	if config.NETWORK_MODE.Status == config.OFFLINE {
-		if config.NETWORK_MODE.Reason == config.NETWORK_IS_DOWN {
+	if config.Network.Status == config.Offline {
+		if config.Network.Reason == config.NetworkIsDown {
 			log.Fatal(utils.SYNC_OFFLINE)
 		}
 
-		if config.NETWORK_MODE.Reason == config.SERVICE_IS_DOWN {
+		if config.Network.Reason == config.ServiceIsDown {
 			log.Fatal(utils.SYNC_SERVICE_DOWN)
 		}
 
-		if config.NETWORK_MODE.Reason == config.CONFIG_IS_MISSING {
+		if config.Network.Reason == config.ConfigIsMissing {
 			log.Fatal(utils.SYNC_CONFIG_MISSING)
 		}
 
-		if config.NETWORK_MODE.Reason == config.API_KEY_IS_MISSING {
+		if config.Network.Reason == config.APIKeyIsMissing {
 			log.Fatal(utils.SYNC_CONFIG_MISSING)
 		}
 	}

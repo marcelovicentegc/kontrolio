@@ -15,6 +15,7 @@ const (
 	PUNCH_SUCCESS        = " sucessfully."
 	DEV_ENVIRONMENT = "ATTENTION! You're online but this is a DEVELOPMENT environment."
 	CREATING_BUCKET = "\nBucket doesn't exist, creating it...\n"
+	FAILED_PARSING_REQUEST = "Something went wrong while parsing the response body.\n"
 )
 
 var (

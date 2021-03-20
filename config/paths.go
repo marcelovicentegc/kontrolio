@@ -17,7 +17,7 @@ func getHomePath() string {
 
 func getConfigFilePath() string {
 	homePath := getHomePath()
-	filename := KONTROLIO_CONFIG_FILENAME
+	filename := KontrolioConfigFilename
 	return homePath + filename
 }
 
@@ -25,7 +25,7 @@ func checkConfigFile() {
 	filePath := getConfigFilePath()
 
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		setNetworkMode(NetworkMode{OFFLINE, CONFIG_IS_MISSING, NA})
+		setNetworkMode(NetworkMode{Offline, ConfigIsMissing, NA})
 		return
 	}
 
@@ -34,7 +34,7 @@ func checkConfigFile() {
 	config = GetConfig()
 
 	if config.ApiKey == "" {
-		setNetworkMode(NetworkMode{OFFLINE, API_KEY_IS_MISSING, NA})
+		setNetworkMode(NetworkMode{Offline, APIKeyIsMissing, NA})
 	}
 }
 
@@ -42,6 +42,6 @@ func checkConfigFile() {
 // local database path.
 func GetLocalDataStorePath() string {
 	homePath := getHomePath()
-	dbName := KONTROLIO_DB_FILENAME
+	dbName := KontrolioDatabaseFilename
 	return homePath + dbName
 }

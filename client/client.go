@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/marcelovicentegc/kontrolio-cli/config"
+	"github.com/marcelovicentegc/kontrolio-cli/utils"
 )
 
 type errorBody struct {
@@ -61,7 +62,7 @@ func CreateRecord(apiKey string) string {
 		err := json.NewDecoder(response.Body).Decode(&responseBody)
 
 		if err != nil {
-			log.Fatal("Something went wrong while parsing the response body.\n")
+			log.Fatal(utils.FAILED_PARSING_REQUEST)
 		}
 
 		log.Fatal(responseBody.Error + "\n")
@@ -74,7 +75,7 @@ func CreateRecord(apiKey string) string {
 	err = json.Unmarshal(body, &responseBody)
 
 	if err != nil {
-		log.Fatal("Something went wrong while parsing the response body.\n")
+		log.Fatal(utils.FAILED_PARSING_REQUEST)
 	}
 
 	return responseBody.Data.RecordType

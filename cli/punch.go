@@ -10,14 +10,14 @@ import (
 )
 
 func punch() {
-	if config.NETWORK_MODE.Status == config.OFFLINE {
+	if config.Network.Status == config.Offline {
 		fmt.Println(utils.YOURE_OFFLINE)
 		recordType := db.SaveOfflineRecord()
 		fmt.Println(utils.FormatPunchMessage(recordType))
 		return
 	}
 
-	if config.NETWORK_MODE.Status == config.ONLINE {
+	if config.Network.Status == config.Online {
 		appConfig := config.GetConfig()
 		utils.DisplayOnlineMessage(*appConfig)
 

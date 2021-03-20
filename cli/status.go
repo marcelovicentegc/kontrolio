@@ -13,7 +13,7 @@ func workday(calledAlone bool) {
 	today := utils.BeginningOfDay(time.Now())
 	tomorrow := today.AddDate(0, 0, 1)
 
-	if config.NETWORK_MODE.Status == config.OFFLINE {
+	if config.Network.Status == config.Online {
 		var todaysRecords []string
 		var nanoseconds int64
 
@@ -64,7 +64,7 @@ func workday(calledAlone bool) {
 		return
 	}
 
-	if config.NETWORK_MODE.Status == config.ONLINE {
+	if config.Network.Status == config.Online {
 		appConfig := config.GetConfig()
 		if calledAlone {
 			utils.DisplayOnlineMessage(*appConfig)
