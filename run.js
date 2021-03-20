@@ -54,7 +54,7 @@ const platform = (() => {
   );
 })();
 
-const binName = platform.TYPE === "Windows" ? `${appName}.exe` : appName;
+const binName = platform.TYPE === "Windows" ? ".exe" : "";
 const binPath = path.join(installDir, binName);
 
 const install = async () => {
