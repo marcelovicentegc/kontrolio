@@ -32,5 +32,5 @@ func FormatPunchMessage(recordType string) string {
 }
 
 func FormatLogMessageHeader(currentDay *time.Time) string {
-	return ColorCyan + "\n" + currentDay.Format(time.RFC850) + ColorReset
+	return ColorCyan + "\n" + currentDay.Format(time.RFC850) + "\n" + ColorReset
 }
