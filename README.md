@@ -16,10 +16,10 @@
 ## Usage
 
 ```bash
-kontrolio
+$ kontrolio
 ```
 
-```bash
+```plain
 NAME:
    kontrolio - your cli time clock, clock card machine, punch clock or time recorder
 
@@ -30,11 +30,11 @@ VERSION:
    0.x
 
 COMMANDS:
-   logs, l     get logs
-   punch, p    punch your clock
-   sync, s     sync offline and online records
-   workday, w  check how many hours have you worked today
-   help, h     Shows a list of commands or help for one command
+   logs, l    navigate through all your records
+   punch, p   punch your clock
+   status, s  check how many hours have you worked today
+   sync       sync offline and online records
+   help, h    Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --help, -h     show help (default: false)
