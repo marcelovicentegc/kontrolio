@@ -91,7 +91,31 @@ const run = async () => {
       console.error(`Failed to install: ${err.message}`);
       process.exit(1);
     }
-    console.log("Install completed.");
+    console.log(` 
+   __  __   ______  __   __  ______  ______  ______  __      __  ______    
+  /\ \/ /  /\  __ \/\ "-.\ \/\__  _\/\  == \/\  __ \/\ \    /\ \/\  __ \   
+  \ \  _"-.\ \ \/\ \ \ \-.  \/_/\ \/\ \  __<\ \ \/\ \ \ \___\ \ \ \ \/\ \  
+   \ \_\ \_\\ \_____\ \_\\"\_\ \ \_\ \ \_\ \_\ \_____\ \_____\ \_\ \_____\ 
+    \/_/\/_/ \/_____/\/_/ \/_/  \/_/  \/_/ /_/\/_____/\/_____/\/_/\/_____/ 
+                                                                             
+                        Installed sucessfully
+ 
+ USAGE:
+    kontrolio [global options] command [command options] [arguments...]
+ 
+ VERSION:
+    0.x
+ 
+ COMMANDS:
+    logs, l    Navigate through all your records
+    punch, p   Punch your clock
+    status, s  Check how many hours have you worked today
+    sync       Sync offline and online records
+    help, h    Shows a list of commands or help for one command
+ 
+ GLOBAL OPTIONS:
+    --help, -h     show help (default: false)
+    --version, -v  print the version (default: false)`);
   }
 
   const [, , ...args] = process.argv;

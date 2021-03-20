@@ -19,14 +19,14 @@ func Kontrolio() {
 
 	app := &cli.App{
 		Name:    "kontrolio",
-		Usage:   "your cli time clock, clock card machine, punch clock or time recorder",
+		Usage:   "Your cli time clock, clock card machine, punch clock or time recorder",
 		Version: "0.0.25",
 
 		Commands: []*cli.Command{
 			{
 				Name:    "punch",
 				Aliases: []string{"p"},
-				Usage:   "punch your clock",
+				Usage:   "Punch your clock",
 				Action: func(ctx *cli.Context) error {
 					punch()
 					workday(false)
@@ -36,7 +36,7 @@ func Kontrolio() {
 			{
 				Name:    "status",
 				Aliases: []string{"s"},
-				Usage:   "check how many hours have you worked today",
+				Usage:   "Check how many hours have you worked today",
 				Action: func(ctx *cli.Context) error {
 					workday(true)
 					return nil
@@ -44,7 +44,7 @@ func Kontrolio() {
 			},
 			{
 				Name:    "sync",
-				Usage:   "sync offline and online records",
+				Usage:   "Sync offline and online records",
 				Action: func(ctx *cli.Context) error {
 					sync()
 					return nil
@@ -53,7 +53,7 @@ func Kontrolio() {
 			{
 				Name:    "logs",
 				Aliases: []string{"l"},
-				Usage:   "navigate through all your records",
+				Usage:   "Navigate through all your records",
 				Action: func(ctx *cli.Context) error {
 					logs()
 					return nil
