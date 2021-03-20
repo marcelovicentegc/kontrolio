@@ -8,17 +8,46 @@
 
 ## Installation
 
-- [You can download the binaries for Linux (64 and 32 bit) and macOS here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
+- You can install it with your favorite package manager:
+  - `yarn global add @kontrolio/cli`
+  - `npm i -g @kontrolio/cli`
+- [Or, you can download the binaries for Linux (64 and 32 bit) and macOS here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
 
-## ✈️ Offline mode
+## Usage
+
+```bash
+NAME:
+   kontrolio - your cli time clock, clock card machine, punch clock or time recorder
+
+USAGE:
+   main [global options] command [command options] [arguments...]
+
+VERSION:
+   0.0.5
+
+COMMANDS:
+   logs, l     get logs
+   punch, p    punch your clock
+   sync, s     sync offline and online records
+   workday, w  check how many hours have you worked today
+   help, h     Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   --help, -h     show help (default: false)
+   --version, -v  print the version (default: false)
+```
+
+## About
+
+### ✈️ Offline mode
 
 Kontrolio works offline by default. If you want to save your data on Kontrolio's platform, check the [online mode](#-online-mode)
 
-## 🌐 Online mode
+### 🌐 Online mode
 
 In order to register your data remotely on Kontrolio's database, you need to create an account on [kontrolio.com](https://kontrolio.com) and set the generated API Key on the [configuration file](#-configuration).
 
-## 🧰 Configuration
+### 🧰 Configuration
 
 | Functionality      | Enabled by default |
 | ------------------ | ------------------ |
@@ -27,13 +56,22 @@ In order to register your data remotely on Kontrolio's database, you need to cre
 
 Kontrolio has a [configuration file](../.kontrolio.example.yaml) that allows you to configure it. This is optional, you don't need to create this file unless you want to customize some default behavior.
 
-The file must be named `.kontrolio.yaml`. Kontrolio looks for
-this file in your home directory (`/home/marcelo` on Linux, `/Users/Marcelo` on macOs, `C:\Users\Marcelo` on Windows).
+The file must be named `.kontrolio.yaml`.
 
-This is how it should look like:
+Kontrolio looks for it in your home directory (`/home/marcelo` on Linux, `/Users/Marcelo` on macOs, `C:\Users\Marcelo` on Windows).
+
+This is how `.kontrolio.yaml` should look like:
 
 ```yaml
-# Required if you want to save your data on Kontrolio's database.
+# Required if you want to save your data on Kontrolio's database,
+# thus have created an account on https://kontrolio.com.
 api_key: "YOUR_API_KEY"
-dev: false
+```
+
+## Development
+
+Make sure you have a `.kontrolio.yaml` file under your home directory with `dev` set to `true`, like this:
+
+```yaml
+dev: true
 ```
