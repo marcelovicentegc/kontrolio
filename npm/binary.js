@@ -7,7 +7,7 @@ const error = (msg) => {
   process.exit(1);
 };
 
-const { version, name, repository } = require("./package.json");
+const { version, name, repository } = require("../package.json");
 
 const supportedPlatforms = [
   {
