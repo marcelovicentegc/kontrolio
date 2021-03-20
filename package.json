@@ -1,6 +1,6 @@
 {
   "name": "@kontrolio/cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "",
   "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
   "license": "MIT",
@@ -8,7 +8,8 @@
     "kontrolio": "./npm/run.js"
   },
   "files": [
-    "npm/**/*"
+    "npm/**/*",
+    "docs/README.md"
   ],
   "scripts": {
     "get": "GO111MODULE=on go get --",

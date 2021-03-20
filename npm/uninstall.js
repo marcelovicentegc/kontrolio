@@ -1,2 +1,2 @@
-const getBinary = require("./getBinary");
-getBinary().uninstall();
+const binaries = require("./binaries");
+binaries.uninstall();
