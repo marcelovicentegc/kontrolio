@@ -53,7 +53,7 @@ func logs() {
 				workWindowNanoseconds = workWindowNanoseconds + utils.SubtractTime(parsedRecord.Time, parsedRecords[index + 1].Time)
 			}
 			
-			log = append(log, fmt.Sprintln(parsedRecord.Time.Format(time.RFC3339) + " " + parsedRecord.Type))
+			log = append(log, utils.FormatLogMessage(parsedRecord))
 			
 			// We compute worked hours from records of type
 			// "out"
