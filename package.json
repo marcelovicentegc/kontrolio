@@ -1,6 +1,6 @@
 {
   "name": "@kontrolio/cli",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "main": "",
   "author": "Marcelo Cardoso <marcelovicentegc@gmail.com>",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "url": "https://github.com/ktrlio/kontrolio-cli"
   },
   "bin": {
-    "kontrolio": "./npm/run.js"
+    "kontrolio": "./run.js"
   },
   "files": [
     "npm/**/*"
