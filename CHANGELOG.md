@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.7] 19/03/2021
+
+### Fixed
+
+- Binaries NPM upload syntax
+
+## [0.0.6] 19/03/2021
+
+### Added
+
+- Binaries upload to NPM
+
 ## [0.0.5] 27/02/2021
 
 ### Changed
