@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.19] 19/03/2021
+
+### Fixed
+
+- Add NPM deploy workflow dependency
+
+## [0.0.18] 19/03/2021
+
+### Added
+
+- NPM deploy workflow.
+
 ## [0.0.17] 19/03/2021
 
 ### Chore
