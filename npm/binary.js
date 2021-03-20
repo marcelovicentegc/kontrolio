@@ -19,7 +19,7 @@ const supportedPlatforms = [
   {
     TYPE: "Darwin",
     ARCHITECTURE: "x64",
-    RUST_TARGET: "darwin_amd64",
+    GOLANG_TARGET: "darwin_amd64",
     BINARY_NAME: "kontrolio",
   },
 ];
@@ -46,9 +46,9 @@ const getPlatformMetadata = () => {
 };
 
 const getBinary = () => {
-  const platformMetadata = getPlatformMetadata();
-  const url = `${repository.url}/releases/download/v${version}/kontrolio-cli_${version}_${platform}.tar.gz`;
-  return new Binary(platformMetadata.name, url);
+  const { BINARY_NAME, GOLANG_TARGET } = getPlatformMetadata();
+  const url = `${repository.url}/releases/download/v${version}/kontrolio-cli_${version}_${GOLANG_TARGET}.tar.gz`;
+  return new Binary(BINARY_NAME, url);
 };
 
 const run = () => {
