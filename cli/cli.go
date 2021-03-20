@@ -29,22 +29,21 @@ func Kontrolio() {
 				Usage:   "punch your clock",
 				Action: func(ctx *cli.Context) error {
 					punch()
-					workdayStatus(false)
+					workday(false)
 					return nil
 				},
 			},
 			{
-				Name:    "workday",
-				Aliases: []string{"w"},
+				Name:    "status",
+				Aliases: []string{"s"},
 				Usage:   "check how many hours have you worked today",
 				Action: func(ctx *cli.Context) error {
-					workdayStatus(true)
+					workday(true)
 					return nil
 				},
 			},
 			{
 				Name:    "sync",
-				Aliases: []string{"s"},
 				Usage:   "sync offline and online records",
 				Action: func(ctx *cli.Context) error {
 					sync()
@@ -54,9 +53,9 @@ func Kontrolio() {
 			{
 				Name:    "logs",
 				Aliases: []string{"l"},
-				Usage:   "get logs",
+				Usage:   "navigate through all your records",
 				Action: func(ctx *cli.Context) error {
-					getLogs()
+					logs()
 					return nil
 				},
 			},
