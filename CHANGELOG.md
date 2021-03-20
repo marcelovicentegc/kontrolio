@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.12] 19/03/2021
+
+### Chore
+
+- Debug NPM release
+
 ## [0.0.11] 19/03/2021
 
 ### Chore
