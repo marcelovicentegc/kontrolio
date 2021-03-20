@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.0.15] 19/03/2021
+
+### Chore
+
+- Add error boundary on NPM release scripts
+
 ## [0.0.14] 19/03/2021
 
 ### Chore

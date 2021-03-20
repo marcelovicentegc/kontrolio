@@ -52,13 +52,21 @@ const getBinary = () => {
 };
 
 const run = () => {
-  const binary = getBinary();
-  binary.run();
+  try {
+    const binary = getBinary();
+    binary.run();
+  } catch (err) {
+    error(err.message);
+  }
 };
 
 const install = () => {
-  const binary = getBinary();
-  binary.install();
+  try {
+    const binary = getBinary();
+    binary.install();
+  } catch (err) {
+    error(err.message);
+  }
 };
 
 module.exports = {
