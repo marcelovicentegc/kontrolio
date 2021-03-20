@@ -1,5 +1,53 @@
 # Changelog
 
+## [0.0.26] 20/03/2021
+
+### Chore
+
+- Change NPM released executable file name
+
+## [0.0.25] 20/03/2021
+
+### Chore
+
+- Debug NPM release
+
+## [0.0.24] 20/03/2021
+
+### Chore
+
+- Debug NPM release
+
+## [0.0.23] 20/03/2021
+
+### Chore
+
+- Debug NPM release
+
+## [0.0.22] 20/03/2021
+
+### Chore
+
+- Debug NPM release
+
+## [0.0.21] 20/03/2021
+
+### Chore
+
+- Debug NPM release
+
+## [0.0.20] 20/03/2021
+
+### Chore
+
+- Debug NPM release
+
+## [0.0.20] 19/03/2021
+
+### Chore
+
+- Debug NPM release
+
 ## [0.0.19] 19/03/2021
 
 ### Fixed

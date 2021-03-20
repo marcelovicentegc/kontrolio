@@ -16,7 +16,7 @@ const appName = "kontrolio";
 
 // Determine the install directory by version so that we can detect when we need
 // to upgrade to a new version.
-const installDir = path.join(binDir, version);
+const installDir = path.join(binDir, version, appName);
 
 const supportedPlatforms = [
   {

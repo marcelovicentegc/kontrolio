@@ -1,7 +1,7 @@
 ![Build and test](https://github.com/marcelovicentegc/kontrolio-cli/workflows/Go/badge.svg)
 
 <p align="center">
-  <img alt="kontrolio logo" src="../assets/logo.png" height="300" />
+  <img alt="kontrolio logo" src="./assets/logo.png" height="300" />
   <h3 align="center">kontrolio-cli</h3>
   <p align="center">Kontrolio's CLI time clock, clock card machine, punch clock, or time recorder.</p>
 </p>
@@ -16,14 +16,18 @@
 ## Usage
 
 ```bash
+kontrolio
+```
+
+```bash
 NAME:
    kontrolio - your cli time clock, clock card machine, punch clock or time recorder
 
 USAGE:
-   main [global options] command [command options] [arguments...]
+   kontrolio [global options] command [command options] [arguments...]
 
 VERSION:
-   0.0.5
+   0.x
 
 COMMANDS:
    logs, l     get logs
@@ -36,6 +40,10 @@ GLOBAL OPTIONS:
    --help, -h     show help (default: false)
    --version, -v  print the version (default: false)
 ```
+
+## Troubleshooting
+
+In case you receive an `EACESS` error while trying to execute `kontrolio`, change the file permissions with `chmod 755 <path_to_binaries>`.
 
 ## About
 
