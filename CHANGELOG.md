@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.0.17] 19/03/2021
+
+### Chore
+
+- Replace `binary-install` for own script
+
+## [0.0.16] 19/03/2021
+
+### Chore
+
+- Debug NPM release
+
 ## [0.0.15] 19/03/2021
 
 ### Chore
