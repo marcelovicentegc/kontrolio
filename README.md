@@ -30,10 +30,10 @@ VERSION:
    0.x
 
 COMMANDS:
-   logs, l    navigate through all your records
-   punch, p   punch your clock
-   status, s  check how many hours have you worked today
-   sync       sync offline and online records
+   logs, l    Navigate through all your records
+   punch, p   Punch your clock
+   status, s  Check how many hours have you worked today
+   sync       Sync offline and online records
    help, h    Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:

@@ -91,16 +91,27 @@ const run = async () => {
       console.error(`Failed to install: ${err.message}`);
       process.exit(1);
     }
-    console.log(` 
-    __  __     ______     __   __     ______   ______     ______     __         __     ______    
-    /\ \/ /    /\  __ \   /\ "-.\ \   /\__  _\ /\  == \   /\  __ \   /\ \       /\ \   /\  __ \   
-    \ \  _"-.  \ \ \/\ \  \ \ \-.  \  \/_/\ \/ \ \  __<   \ \ \/\ \  \ \ \____  \ \ \  \ \ \/\ \  
-     \ \_\ \_\  \ \_____\  \ \_\\"\_\    \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\  \ \_____\ 
-      \/_/\/_/   \/_____/   \/_/ \/_/     \/_/   \/_/ /_/   \/_____/   \/_____/   \/_/   \/_____/ 
+    console.log(`
+                 kkkkkkk                                    
+                k:::::k    
+               k:::::k     
+              k:::::k      
+ kkkkkkk     k:::::k       
+ k:::::k    k:::::k 
+ k:::::k   k:::::k 
+ k:::::k  k:::::k  
+ k:::::k k:::::k   
+ k::::::k:::::k    
+ k:::::::::::k     
+ k:::::::::::k     
+ k::::::k:::::k    
+ k:::::k k:::::k   
+ k:::::k  k:::::k  
+ k:::::k   k:::::k 
+ kkkkkkk    kkkkkkk
+                   
+                    Kontrolio CLI successfully installed
 
-
-                                    Installed sucessfully
- 
  USAGE:
     kontrolio [global options] command [command options] [arguments...]
  
