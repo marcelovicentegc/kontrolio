@@ -1,0 +1,9 @@
+builds:
+  - main: ./kontrolio.go
+    id: "kontrolio"
+    binary: kontrolio
+    goos:
+      - darwin
+      - linux
+      - windows
+      - freebsd
