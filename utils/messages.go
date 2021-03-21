@@ -38,3 +38,7 @@ func FormatLogMessageHeader(currentDay *time.Time) string {
 func FormatLogMessage(record Record) string {
 	return record.Time.Format(time.Kitchen) + " " + record.Type + "\n"
 }
+
+func FormatStatusMessage(workTimeNanoseconds int64) string {
+	return ColorGreen + WORKDAY_STATUS + time.Duration(workTimeNanoseconds).String() + "\n" + ColorReset
+}

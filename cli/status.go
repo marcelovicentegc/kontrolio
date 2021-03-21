@@ -9,11 +9,11 @@ import (
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 )
 
-func workday(calledAlone bool) {
+func status(calledAlone bool) {
 	today := utils.BeginningOfDay(time.Now())
 	tomorrow := today.AddDate(0, 0, 1)
 
-	if config.Network.Status == config.Online {
+	if config.Network.Status == config.Offline {
 		var todaysRecords []string
 		var nanoseconds int64
 
@@ -58,8 +58,7 @@ func workday(calledAlone bool) {
 			}
 		}
 
-		fmt.Print(utils.WORKDAY_STATUS)
-		fmt.Println(time.Duration(nanoseconds).String() + "\n")
+		fmt.Println(utils.FormatStatusMessage(nanoseconds))
 
 		return
 	}
