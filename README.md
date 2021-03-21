@@ -8,10 +8,13 @@
 
 ## Installation
 
-- You can install it with your favorite package manager:
-  - `yarn global add @kontrolio/cli`
-  - `npm i -g @kontrolio/cli`
-- [Or, you can download the binaries for Linux (64 and 32 bit), macOS and Windows here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
+- You can:
+  - Install it with your favorite package manager:
+    - `yarn global add @kontrolio/cli`
+    - `npm i -g @kontrolio/cli`
+  - [Download the binaries for Linux (64 and 32 bit), macOS or Windows here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
+  - Install with homebrew if you're a Mac user :beer:::
+    - `brew install ktrlio/tools/kontrolio`
 
 See [Troubleshooting](#troubleshooting) if you have any issues on installation.
 
@@ -49,15 +52,15 @@ In case you receive an `EACESS` error while trying to execute `kontrolio` after 
 
 ## About
 
-### ✈️ Offline mode
+### Offline mode ✈️
 
 Kontrolio works offline by default. If you want to save your data on Kontrolio's platform, check the [online mode](#-online-mode)
 
-### 🌐 Online mode
+### Online mode 🌐
 
 In order to register your data remotely on Kontrolio's database, you need to create an account on [kontrolio.com](https://kontrolio.com) and set the generated API Key on the [configuration file](#-configuration).
 
-### 🧰 Configuration
+### Configuration 🧰
 
 | Functionality      | Enabled by default |
 | ------------------ | ------------------ |
