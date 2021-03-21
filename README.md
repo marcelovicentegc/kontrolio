@@ -11,7 +11,9 @@
 - You can install it with your favorite package manager:
   - `yarn global add @kontrolio/cli`
   - `npm i -g @kontrolio/cli`
-- [Or, you can download the binaries for Linux (64 and 32 bit) and macOS here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
+- [Or, you can download the binaries for Linux (64 and 32 bit), macOS and Windows here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
+
+See [Troubleshooting](#troubleshooting) if you have any issues on installation.
 
 ## Usage
 
@@ -43,7 +45,7 @@ GLOBAL OPTIONS:
 
 ## Troubleshooting
 
-In case you receive an `EACESS` error while trying to execute `kontrolio`, change the file permissions with `chmod 755 <path_to_binaries>`.
+In case you receive an `EACESS` error while trying to execute `kontrolio` after installing it with `npm` or `yarn`, change the file permissions with `chmod 755 <path_to_binaries>`.
 
 ## About
 
