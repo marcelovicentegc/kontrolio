@@ -9,12 +9,12 @@
 ## Installation
 
 - You can:
+  - Install with homebrew if you're a Mac user :beer::
+    - `brew install ktrlio/tools/kontrolio`
   - Install it with your favorite package manager:
     - `yarn global add @kontrolio/cli`
     - `npm i -g @kontrolio/cli`
   - [Download the binaries for Linux (64 and 32 bit), macOS or Windows here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
-  - Install with homebrew if you're a Mac user :beer:::
-    - `brew install ktrlio/tools/kontrolio`
 
 See [Troubleshooting](#troubleshooting) if you have any issues on installation.
 
