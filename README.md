@@ -26,7 +26,7 @@ $ kontrolio
 
 ```plain
 NAME:
-   kontrolio - your cli time clock, clock card machine, punch clock or time recorder
+   kontrolio - Your cli time clock, clock card machine, punch clock or time recorder
 
 USAGE:
    kontrolio [global options] command [command options] [arguments...]
@@ -35,11 +35,13 @@ VERSION:
    0.x
 
 COMMANDS:
-   logs, l    Navigate through all your records
-   punch, p   Punch your clock
-   status, s  Check how many hours have you worked today
-   sync       Sync offline and online records
-   help, h    Shows a list of commands or help for one command
+   auth, a                Authenticate on Kontrolio
+   config, c              Configure Kontrolio
+   logs, l                Navigate through all your records
+   punch, p               Punch your clock
+   status, s              Check how many hours have you worked today
+   sync                   Sync offline and online records
+   help, h                Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
    --help, -h     show help (default: false)
@@ -52,38 +54,21 @@ In case you receive an `EACESS` error while trying to execute `kontrolio` after 
 
 ## About
 
-### Offline mode ✈️
+### Offline mode
 
-Kontrolio works offline by default. If you want to save your data on Kontrolio's platform, check the [online mode](#-online-mode)
+Kontrolio works offline by default. If you want to save your data on Kontrolio's platform, check the [online mode](#online-mode)
 
-### Online mode 🌐
+### Online mode
 
-In order to register your data remotely on Kontrolio's database, you need to create an account on [kontrolio.com](https://kontrolio.com) and set the generated API Key on the [configuration file](#-configuration).
+In order to register your data remotely on Kontrolio's database, you need to create an account at [kontrolio.com](https://kontrolio.com) and authenticate with:
 
-### Configuration 🧰
-
-| Functionality      | Enabled by default |
-| ------------------ | ------------------ |
-| Saves data offline | ✔️                 |
-| Saves data online  | opt-in             |
-
-Kontrolio has a [configuration file](../.kontrolio.example.yaml) that allows you to configure it. This is optional, you don't need to create this file unless you want to customize some default behavior.
-
-The file must be named `.kontrolio.yaml`.
-
-Kontrolio looks for it in your home directory (`/home/marcelo` on Linux, `/Users/Marcelo` on macOs, `C:\Users\Marcelo` on Windows).
-
-This is how `.kontrolio.yaml` should look like:
-
-```yaml
-# Required if you want to save your data on Kontrolio's database,
-# thus have created an account on https://kontrolio.com.
-api_key: "YOUR_API_KEY"
+```bash
+$ kontrolio auth
 ```
 
 ## Development
 
-Make sure you have a `.kontrolio.yaml` file under your home directory with `dev` set to `true`, like this:
+Make sure you have a `.kontrolio.yaml` file under your home directory (`/home/marcelo` on Linux, `/Users/Marcelo` on macOs, `C:\Users\Marcelo` on Windows) with `dev` set to `true`, like this:
 
 ```yaml
 dev: true
