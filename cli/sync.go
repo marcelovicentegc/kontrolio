@@ -6,31 +6,32 @@ import (
 	"github.com/marcelovicentegc/kontrolio-cli/client"
 	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/marcelovicentegc/kontrolio-cli/db"
+	"github.com/marcelovicentegc/kontrolio-cli/messages"
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 )
 
 func sync() {
 	if config.Network.Status == config.Offline {
 		if config.Network.Reason == config.NetworkIsDown {
-			log.Fatal(utils.SYNC_OFFLINE)
+			log.Fatal(messages.SyncOffline)
 		}
 
 		if config.Network.Reason == config.ServiceIsDown {
-			log.Fatal(utils.SYNC_SERVICE_DOWN)
+			log.Fatal(messages.SyncServiceDown)
 		}
 
 		if config.Network.Reason == config.ConfigIsMissing {
-			log.Fatal(utils.SYNC_CONFIG_MISSING)
+			log.Fatal(messages.SyncConfigMissing)
 		}
 
 		if config.Network.Reason == config.APIKeyIsMissing {
-			log.Fatal(utils.SYNC_CONFIG_MISSING)
+			log.Fatal(messages.SyncAPIKeyMissing)
 		}
 	}
 
 	appConfig := config.GetConfig()
 
-	utils.DisplayOnlineMessage(*appConfig)
+	messages.DisplayOnlineMessage(*appConfig)
 
 	offlineRecords := db.GetOfflineRecords()
 

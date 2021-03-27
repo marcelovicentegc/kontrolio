@@ -9,22 +9,22 @@ import (
 // as well as the reason for failures on
 // if it's in production.
 type NetworkMode struct {
-	Status int
-	Reason int
+	Status       int
+	Reason       int
 	IsProduction int
 }
 
 const (
 	Offline = iota
-	Online = iota
+	Online  = iota
 )
 
 const (
-	ServiceIsDown    = iota
-	NetworkIsDown    = iota
-	ConfigIsMissing  = iota
-	APIKeyIsMissing = iota
-	NA                 = iota
+	ServiceIsDown     = iota
+	NetworkIsDown     = iota
+	ConfigIsMissing   = iota
+	APIKeyIsMissing   = iota
+	NA                = iota
 	IsProdEnvironment = iota
 )
 
@@ -38,7 +38,7 @@ func checkConnection() {
 	var healthCheckEndpoint string
 	var isProd int
 
-	if (IsDevEnvironment()) {
+	if IsDevEnvironment() {
 		isProd = NA
 		healthCheckEndpoint = KontrolioHealthCheckLocal
 	} else {

@@ -6,6 +6,7 @@ import (
 
 	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/marcelovicentegc/kontrolio-cli/db"
+	"github.com/marcelovicentegc/kontrolio-cli/messages"
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 )
 
@@ -58,7 +59,7 @@ func status(calledAlone bool) {
 			}
 		}
 
-		fmt.Println(utils.FormatStatusMessage(nanoseconds))
+		fmt.Println(messages.FormatStatusMessage(nanoseconds))
 
 		return
 	}
@@ -66,7 +67,7 @@ func status(calledAlone bool) {
 	if config.Network.Status == config.Online {
 		appConfig := config.GetConfig()
 		if calledAlone {
-			utils.DisplayOnlineMessage(*appConfig)
+			messages.DisplayOnlineMessage(*appConfig)
 		}
 
 		// TODO: Get workday status from remote database.

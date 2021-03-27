@@ -6,12 +6,13 @@ import (
 
 	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/marcelovicentegc/kontrolio-cli/db"
+	"github.com/marcelovicentegc/kontrolio-cli/messages"
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 )
 
 func logs() {
 	if config.Network.Status == config.Offline {
-		fmt.Println(utils.YOURE_OFFLINE)
+		fmt.Println(messages.IsOffline)
 
 		records := db.GetOfflineRecords()
 
@@ -27,57 +28,55 @@ func logs() {
 		}
 
 		for index, parsedRecord := range parsedRecords {
-			isLastRecord := index + 1 == len(parsedRecords)
+			isLastRecord := index+1 == len(parsedRecords)
 
 			if currentDay == nil {
 				endOfDay := utils.EndOfDay(parsedRecord.Time)
 				currentDay = &endOfDay
-				log = append(log, utils.FormatLogMessageHeader(currentDay))
+				log = append(log, messages.FormatLogMessageHeader(currentDay))
 			}
 
 			if parsedRecord.Time.After(*currentDay) {
-				log = append(log, 
-					utils.FormatLogMessageFooter(time.Duration(workNanoseconds).String(), time.Duration(workWindowNanoseconds).String(),
-				))
-				
+				log = append(log,
+					messages.FormatLogMessageFooter(time.Duration(workNanoseconds).String(), time.Duration(workWindowNanoseconds).String()))
+
 				// Resets time accumulators
 				workWindowNanoseconds = 0
 				workNanoseconds = 0
 
 				endOfDay := utils.EndOfDay(parsedRecord.Time)
 				currentDay = &endOfDay
-				log = append(log, utils.FormatLogMessageHeader(currentDay))
+				log = append(log, messages.FormatLogMessageHeader(currentDay))
 			}
 
-			if (!isLastRecord && parsedRecords[index + 1].Time.Before(*currentDay)) {
-				workWindowNanoseconds = workWindowNanoseconds + utils.SubtractTime(parsedRecord.Time, parsedRecords[index + 1].Time)
+			if !isLastRecord && parsedRecords[index+1].Time.Before(*currentDay) {
+				workWindowNanoseconds = workWindowNanoseconds + utils.SubtractTime(parsedRecord.Time, parsedRecords[index+1].Time)
 			}
-			
-			log = append(log, utils.FormatLogMessage(parsedRecord))
-			
+
+			log = append(log, messages.FormatLogMessage(parsedRecord))
+
 			// We compute worked hours from records of type
 			// "out"
-			if (parsedRecord.Type == db.RecordTypeRegistry.Out) {
-				workNanoseconds = workNanoseconds + utils.SubtractTime(parsedRecords[index - 1].Time, parsedRecord.Time)
+			if parsedRecord.Type == db.RecordTypeRegistry.Out {
+				workNanoseconds = workNanoseconds + utils.SubtractTime(parsedRecords[index-1].Time, parsedRecord.Time)
 			}
 
 			// This condition means that we reached the last log,
-			// thus we must append the accumulated time for the last 
+			// thus we must append the accumulated time for the last
 			// day here
-			if (isLastRecord) {
+			if isLastRecord {
 				// Covers the cases where the client has punched in but haven't
 				// punched out yet, so we compute how much time has passed
 				// between when it punched in and now.
-				if (parsedRecord.Type == db.RecordTypeRegistry.In) {
-					workNanoseconds= workNanoseconds + utils.SubtractTime(parsedRecord.Time, time.Now())
+				if parsedRecord.Type == db.RecordTypeRegistry.In {
+					workNanoseconds = workNanoseconds + utils.SubtractTime(parsedRecord.Time, time.Now())
 				}
 
-				log = append(log, 
-					utils.FormatLogMessageFooter(time.Duration(workNanoseconds).String(), time.Duration(workWindowNanoseconds).String(),
-				))
+				log = append(log,
+					messages.FormatLogMessageFooter(time.Duration(workNanoseconds).String(), time.Duration(workWindowNanoseconds).String()))
 			}
 		}
-		
+
 		for _, l := range log {
 			fmt.Print(l)
 		}

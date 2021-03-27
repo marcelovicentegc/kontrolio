@@ -6,12 +6,13 @@ import (
 	"time"
 
 	"github.com/marcelovicentegc/kontrolio-cli/config"
+	"github.com/marcelovicentegc/kontrolio-cli/messages"
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 
 	bolt "go.etcd.io/bbolt"
 )
 
-const BUCKET_NAME = "KontrolioBucket"
+const BucketName = "KontrolioBucket"
 
 type recordTypeRegistry struct {
 	In  string
@@ -28,10 +29,10 @@ func newRecordTypeRegistry() *recordTypeRegistry {
 var RecordTypeRegistry = newRecordTypeRegistry()
 
 func getBucket(transaction *bolt.Tx) *bolt.Bucket {
-	bucket := transaction.Bucket([]byte(BUCKET_NAME))
+	bucket := transaction.Bucket([]byte(BucketName))
 	if bucket == nil {
-		fmt.Println(utils.CREATING_BUCKET)
-		newBucket, err := transaction.CreateBucketIfNotExists([]byte(BUCKET_NAME))
+		fmt.Println(messages.CreatingBucket)
+		newBucket, err := transaction.CreateBucketIfNotExists([]byte(BucketName))
 
 		if err != nil {
 			log.Fatal(err)

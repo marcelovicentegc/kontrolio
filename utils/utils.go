@@ -11,7 +11,7 @@ func BeginningOfDay(t time.Time) time.Time {
 	return time.Date(year, month, day, 0, 0, 0, 0, t.Location())
 }
 
-// EndOfDay returns the given time object formatted to its 
+// EndOfDay returns the given time object formatted to its
 // last millisecond of its day
 func EndOfDay(t time.Time) time.Time {
 	year, month, day := t.Date()
@@ -30,14 +30,3 @@ func IndexOf(haystack []string, needle string) int {
 	}
 	return -1
 }
-
-const (
-	ColorReset  = "\033[0m"
-	ColorRed    = "\033[31m"
-	ColorGreen  = "\033[32m"
-	ColorYellow = "\033[33m"
-	ColorBlue   = "\033[34m"
-	ColorPurple = "\033[35m"
-	ColorCyan   = "\033[36m"
-	ColorWhite  = "\033[37m"
-)

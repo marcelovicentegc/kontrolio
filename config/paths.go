@@ -15,23 +15,23 @@ func getHomePath() string {
 	return usr.HomeDir + "/"
 }
 
-func getConfigFilePath() string {
+// GetConfigFilePath returns the file path
+// for .kontrolio.yaml configuration file
+func GetConfigFilePath() string {
 	homePath := getHomePath()
 	filename := KontrolioConfigFilename
 	return homePath + filename
 }
 
 func checkConfigFile() {
-	filePath := getConfigFilePath()
+	filePath := GetConfigFilePath()
 
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		setNetworkMode(NetworkMode{Offline, ConfigIsMissing, NA})
 		return
 	}
 
-	config := &Config{}
-
-	config = GetConfig()
+	config := GetConfig()
 
 	if config.ApiKey == "" {
 		setNetworkMode(NetworkMode{Offline, APIKeyIsMissing, NA})

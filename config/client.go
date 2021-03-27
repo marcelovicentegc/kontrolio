@@ -16,11 +16,10 @@ const (
 	AllRecordsEndpoint = "records/all"
 )
 
-
 // GetBaseURL is responsible for getting the
 // development or production base URL.
 func GetBaseURL() string {
-	if (IsDevEnvironment()) {
+	if IsDevEnvironment() {
 		return LocalBaseURL
 	} else {
 		return BaseURL

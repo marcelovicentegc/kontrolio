@@ -20,7 +20,7 @@ func Kontrolio() {
 	app := &cli.App{
 		Name:    "kontrolio",
 		Usage:   "Your cli time clock, clock card machine, punch clock or time recorder",
-		Version: "0.0.31",
+		Version: "0.0.32",
 
 		Commands: []*cli.Command{
 			{
@@ -43,8 +43,8 @@ func Kontrolio() {
 				},
 			},
 			{
-				Name:    "sync",
-				Usage:   "Sync offline and online records",
+				Name:  "sync",
+				Usage: "Sync offline and online records",
 				Action: func(ctx *cli.Context) error {
 					sync()
 					return nil
@@ -56,6 +56,24 @@ func Kontrolio() {
 				Usage:   "Navigate through all your records",
 				Action: func(ctx *cli.Context) error {
 					logs()
+					return nil
+				},
+			},
+			{
+				Name:    "configure",
+				Aliases: []string{"config", "c"},
+				Usage:   "Configure Kontrolio",
+				Action: func(ctx *cli.Context) error {
+					configure()
+					return nil
+				},
+			},
+			{
+				Name:    "authenticate",
+				Aliases: []string{"auth", "a"},
+				Usage:   "Authenticate on Kontrolio",
+				Action: func(ctx *cli.Context) error {
+					auth()
 					return nil
 				},
 			},
