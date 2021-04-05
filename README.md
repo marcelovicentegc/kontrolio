@@ -60,11 +60,7 @@ Kontrolio works offline by default. If you want to save your data on Kontrolio's
 
 ### Online mode
 
-In order to register your data remotely on Kontrolio's database, you need to create an account at [kontrolio.com](https://kontrolio.com) and authenticate with:
-
-```bash
-$ kontrolio auth
-```
+> SOON
 
 ## Development
 
