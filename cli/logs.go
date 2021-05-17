@@ -2,6 +2,8 @@ package cli
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/marcelovicentegc/kontrolio-cli/db"
@@ -9,7 +11,7 @@ import (
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
 )
 
-func logs() {
+func logs(tail *string) {
 	records := db.GetOfflineRecords()
 
 	var parsedRecords []utils.Record
@@ -73,10 +75,44 @@ func logs() {
 		}
 	}
 
+	if tail != nil {
+		if tail, err := strconv.Atoi(*tail); err == nil && tail > 0 {
+			var indices []int
+
+			for index, l := range log {
+				if strings.Contains(l, "\r") {
+					indices = append(indices, index)
+				}
+			}
+
+			if tail > len(indices) {
+				for _, l := range log {
+					fmt.Print(l)
+				}
+
+				fmt.Println()
+
+				return
+			}
+
+			end := len(log)
+			start := indices[len(indices)-tail]
+
+			for _, l := range log[start:end] {
+				fmt.Print(l)
+			}
+
+			fmt.Println()
+
+			return
+		}
+
+		fmt.Println("Invalid `tail` value, printing all logs")
+	}
+
 	for _, l := range log {
 		fmt.Print(l)
 	}
 
 	fmt.Println()
-
 }

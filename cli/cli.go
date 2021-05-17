@@ -18,7 +18,7 @@ func Kontrolio() {
 	app := &cli.App{
 		Name:    "kontrolio",
 		Usage:   "Your cli time clock, clock card machine, punch clock or time recorder",
-		Version: "0.0.33",
+		Version: "0.0.34",
 
 		Commands: []*cli.Command{
 			{
@@ -44,8 +44,12 @@ func Kontrolio() {
 				Name:    "logs",
 				Aliases: []string{"l"},
 				Usage:   "Navigate through all your records",
+				Flags: []cli.Flag{
+					&cli.StringFlag{Name: "tail", Aliases: []string{"t"}},
+				},
 				Action: func(ctx *cli.Context) error {
-					logs()
+					tail := ctx.String("tail")
+					logs(&tail)
 					return nil
 				},
 			},
