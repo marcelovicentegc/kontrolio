@@ -26,78 +26,77 @@ type SecondRoundAnswers struct {
 	WorkingTime string
 }
 
-var qsFirstRound = []*survey.Question{
-	{
-		Name:      "name",
-		Prompt:    &survey.Input{Message: "What is your name?", Help: "I'll use this information to salute you"},
-		Validate:  survey.Required,
-		Transform: survey.Title,
-	},
-	{
-		Name: "workingDays",
-		Prompt: &survey.MultiSelect{
-			Message: "On what days do you usually work?",
-			Options: []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"},
-			Help:    "I'll use this information to generate meaningful insights to you",
-		},
-	},
-	{
-		Name: "hasWorkingTime",
-		Prompt: &survey.Select{
-			Message: "Do you have a fixed/regular working time?",
-			Options: []string{"yes", "no"},
-			Default: "yes",
-		},
-	},
-}
-
-var qsSecondRound = []*survey.Question{
-	{
-		Name:   "workingTime",
-		Prompt: &survey.Input{Message: "How many hours a week do you work?", Help: "I'll let you know when you need to compensate"},
-		Validate: func(val interface{}) error {
-
-			if hours, err := strconv.Atoi(val.(string)); err == nil && hours > 0 {
-				return nil
-			}
-
-			return errors.New("only positive real numbers are accepted.")
-		},
-	},
-}
-
 func configure() {
-	if config.Network.Status == config.Offline {
-		fmt.Println(messages.IsOffline)
+	config := config.GetConfig()
 
-		firstRoundAnswers := FirstRoundAnswers{}
-		secondRoundAnswers := SecondRoundAnswers{}
+	var qsFirstRound = []*survey.Question{
+		{
+			Name:      "name",
+			Prompt:    &survey.Input{Message: "What is your name?", Help: "I'll use this information to salute you", Default: config.Name},
+			Validate:  survey.Required,
+			Transform: survey.Title,
+		},
+		{
+			Name: "workingDays",
+			Prompt: &survey.MultiSelect{
+				Message: "On what days do you usually work?",
+				Options: []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"},
+				Help:    "I'll use this information to generate meaningful insights to you",
+				Default: config.WorkingDays,
+			},
+		},
+		{
+			Name: "hasWorkingTime",
+			Prompt: &survey.Select{
+				Message: "Do you have a fixed/regular working time?",
+				Options: []string{"yes", "no"},
+				Default: "yes",
+			},
+		},
+	}
 
-		err := survey.Ask(qsFirstRound, &firstRoundAnswers)
+	var qsSecondRound = []*survey.Question{
+		{
+			Name: "workingTime",
+			Prompt: &survey.Input{Message: "How many hours a week do you work?", Help: "I'll let you know when you need to compensate", Default: func() string {
+				if fmt.Sprintf("%T", config.WorkingTime) == "string" {
+					return config.WorkingTime
+				}
+
+				return ""
+			}()},
+			Validate: func(val interface{}) error {
+
+				if hours, err := strconv.Atoi(val.(string)); err == nil && hours > 0 {
+					return nil
+				}
+
+				return errors.New("only positive real numbers are accepted")
+			},
+		},
+	}
+
+	firstRoundAnswers := FirstRoundAnswers{}
+	secondRoundAnswers := SecondRoundAnswers{}
+
+	err := survey.Ask(qsFirstRound, &firstRoundAnswers)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	if firstRoundAnswers.HasWorkingTime == "yes" {
+
+		err := survey.Ask(qsSecondRound, &secondRoundAnswers)
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
-
-		if firstRoundAnswers.HasWorkingTime == "yes" {
-
-			err := survey.Ask(qsSecondRound, &secondRoundAnswers)
-			if err != nil {
-				fmt.Println(err.Error())
-				return
-			}
-		}
-
-		saveConfiguration(firstRoundAnswers, secondRoundAnswers)
-
-		fmt.Println(messages.ColorWhiteBold(messages.DoneConfiguring) + messages.ColorGreenBold(messages.KontrolioConfigCommand))
-
-		return
 	}
 
-	if config.Network.Status == config.Online {
-		// TODO: Sync data online
-	}
+	saveConfiguration(firstRoundAnswers, secondRoundAnswers)
+
+	fmt.Println(messages.ColorWhiteBold(messages.DoneConfiguring) + messages.ColorGreenBold(messages.KontrolioConfigCommand))
 }
 
 func saveConfiguration(firstRoundAnswers FirstRoundAnswers, secondRoundAnswers SecondRoundAnswers) {

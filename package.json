@@ -18,7 +18,8 @@
     "get": "GO111MODULE=on go get --",
     "removeunused": "go mod tidy",
     "build": "go build -o ./dist/main .",
-    "start": "yarn build && ./dist/main"
+    "start": "yarn build && ./dist/main",
+    "test": "yarn build"
   },
   "husky": {
     "hooks": {

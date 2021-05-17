@@ -6,12 +6,10 @@ import (
 	"os"
 	"sort"
 
-	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/urfave/cli/v2"
 )
 
 func Kontrolio() {
-	config.ConfigNetworkMode()
 
 	cli.VersionPrinter = func(ctx *cli.Context) {
 		fmt.Printf("version=%s\n", ctx.App.Version)
@@ -20,7 +18,7 @@ func Kontrolio() {
 	app := &cli.App{
 		Name:    "kontrolio",
 		Usage:   "Your cli time clock, clock card machine, punch clock or time recorder",
-		Version: "0.0.32",
+		Version: "0.0.33",
 
 		Commands: []*cli.Command{
 			{
@@ -43,14 +41,6 @@ func Kontrolio() {
 				},
 			},
 			{
-				Name:  "sync",
-				Usage: "Sync offline and online records",
-				Action: func(ctx *cli.Context) error {
-					sync()
-					return nil
-				},
-			},
-			{
 				Name:    "logs",
 				Aliases: []string{"l"},
 				Usage:   "Navigate through all your records",
@@ -65,15 +55,6 @@ func Kontrolio() {
 				Usage:   "Configure Kontrolio",
 				Action: func(ctx *cli.Context) error {
 					configure()
-					return nil
-				},
-			},
-			{
-				Name:    "authenticate",
-				Aliases: []string{"auth", "a"},
-				Usage:   "Authenticate on Kontrolio",
-				Action: func(ctx *cli.Context) error {
-					auth()
 					return nil
 				},
 			},

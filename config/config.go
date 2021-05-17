@@ -50,11 +50,3 @@ func GetConfig() *Config {
 
 	return config
 }
-
-func ConfigNetworkMode() {
-	checkConnection()
-
-	if Network.Status == Online {
-		checkConfigFile()
-	}
-}

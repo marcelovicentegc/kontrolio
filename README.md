@@ -6,11 +6,17 @@
   <p align="center">Kontrolio's CLI time clock, clock card machine, punch clock, or time recorder.</p>
 </p>
 
+---
+
+![kontrolio logs](./assets/logs.png)
+
+---
+
 ## Installation
 
 - You can:
   - Install with homebrew if you're a Mac user :beer::
-    - `brew install ktrlio/tools/kontrolio`
+    - `brew install marcelovicentegc/taps/kontrolio`
   - Install it with your favorite package manager:
     - `yarn global add @kontrolio/cli`
     - `npm i -g @kontrolio/cli`
@@ -35,12 +41,10 @@ VERSION:
    0.x
 
 COMMANDS:
-   auth, a                Authenticate on Kontrolio
    config, c              Configure Kontrolio
    logs, l                Navigate through all your records
    punch, p               Punch your clock
    status, s              Check how many hours have you worked today
-   sync                   Sync offline and online records
    help, h                Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
@@ -53,14 +57,6 @@ GLOBAL OPTIONS:
 In case you receive an `EACESS` error while trying to execute `kontrolio` after installing it with `npm` or `yarn`, change the file permissions with `chmod 755 <path_to_binaries>`.
 
 ## About
-
-### Offline mode
-
-Kontrolio works offline by default. If you want to save your data on Kontrolio's platform, check the [online mode](#online-mode)
-
-### Online mode
-
-> SOON
 
 ## Development
 
