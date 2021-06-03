@@ -110,24 +110,7 @@ const run = async () => {
  k:::::k   k:::::k 
  kkkkkkk    kkkkkkk
                    
-                    Kontrolio CLI successfully installed
-
- USAGE:
-    kontrolio [global options] command [command options] [arguments...]
- 
- VERSION:
-    0.x
- 
- COMMANDS:
-    logs, l    Navigate through all your records
-    punch, p   Punch your clock
-    status, s  Check how many hours have you worked today
-    sync       Sync offline and online records
-    help, h    Shows a list of commands or help for one command
- 
- GLOBAL OPTIONS:
-    --help, -h     show help (default: false)
-    --version, -v  print the version (default: false)`);
+                    Kontrolio CLI successfully installed`);
   }
 
   const [, , ...args] = process.argv;
