@@ -17,13 +17,13 @@ func logs(tail *string) {
 	var log []string
 
 	logBuilder(records, func(workNanoseconds *int64, workWindowNanoseconds *int64, currentDay *time.Time, record *utils.Record) {
-		if workNanoseconds != nil && workWindowNanoseconds != nil {
+		if record == nil && currentDay != nil {
+			log = append(log, messages.FormatLogMessageHeader(currentDay))
+		} else if record != nil {
+			log = append(log, messages.FormatLogMessage(*record))
+		} else if workNanoseconds != nil && workWindowNanoseconds != nil {
 			log = append(log,
 				messages.FormatLogMessageFooter(time.Duration(*workNanoseconds).String(), time.Duration(*workWindowNanoseconds).String()))
-		} else if record == nil && currentDay != nil {
-			log = append(log, messages.FormatLogMessageHeader(currentDay))
-		} else {
-			log = append(log, messages.FormatLogMessage(*record))
 		}
 	})
 
@@ -89,6 +89,9 @@ func logBuilder(records []utils.Record, logger func(workNanoseconds *int64, work
 			// Resets time accumulators
 			workWindowNanoseconds = 0
 			workNanoseconds = 0
+
+			endOfDay := utils.EndOfDay(record.Time)
+			currentDay = &endOfDay
 
 			logger(nil, nil, currentDay, nil)
 		}
