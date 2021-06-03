@@ -29,7 +29,7 @@ func plotGraph() {
 		}
 	})
 
-	graph := asciigraph.Plot(data)
+	graph := asciigraph.Plot(data, asciigraph.Height(10), asciigraph.Precision(1), asciigraph.Caption("Daily work hours plot"))
 
 	fmt.Println(graph)
 }
