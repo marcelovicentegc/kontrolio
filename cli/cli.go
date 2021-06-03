@@ -18,7 +18,7 @@ func Kontrolio() {
 	app := &cli.App{
 		Name:    "kontrolio",
 		Usage:   "Your cli time clock, clock card machine, punch clock or time recorder",
-		Version: "0.0.35",
+		Version: "0.0.36",
 
 		Commands: []*cli.Command{
 			{
