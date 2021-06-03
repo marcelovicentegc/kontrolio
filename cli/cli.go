@@ -34,7 +34,7 @@ func Kontrolio() {
 			{
 				Name:    "status",
 				Aliases: []string{"s"},
-				Usage:   "Check how many hours have you worked today",
+				Usage:   "Check how many hours you have worked today",
 				Action: func(ctx *cli.Context) error {
 					status(true)
 					return nil
@@ -46,10 +46,17 @@ func Kontrolio() {
 				Usage:   "Navigate through all your records",
 				Flags: []cli.Flag{
 					&cli.StringFlag{Name: "tail", Aliases: []string{"t"}},
+					&cli.BoolFlag{Name: "graph", Aliases: []string{"g"}},
 				},
 				Action: func(ctx *cli.Context) error {
 					tail := ctx.String("tail")
-					logs(&tail)
+					graph := ctx.Bool("graph")
+
+					if graph {
+						plotGraph()
+					} else {
+						logs(&tail)
+					}
 					return nil
 				},
 			},
