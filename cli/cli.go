@@ -47,13 +47,17 @@ func Kontrolio() {
 				Flags: []cli.Flag{
 					&cli.StringFlag{Name: "tail", Aliases: []string{"t"}},
 					&cli.BoolFlag{Name: "graph", Aliases: []string{"g"}},
+					&cli.BoolFlag{Name: "table"},
 				},
 				Action: func(ctx *cli.Context) error {
 					tail := ctx.String("tail")
 					graph := ctx.Bool("graph")
+					table := ctx.Bool("table")
 
 					if graph {
 						plotGraph()
+					} else if table {
+						plotTable()
 					} else {
 						logs(&tail)
 					}
