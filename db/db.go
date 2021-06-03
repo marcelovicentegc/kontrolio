@@ -1,18 +1,16 @@
 package db
 
 import (
+	"encoding/csv"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/marcelovicentegc/kontrolio-cli/messages"
 	"github.com/marcelovicentegc/kontrolio-cli/utils"
-
-	bolt "go.etcd.io/bbolt"
 )
-
-const BucketName = "KontrolioBucket"
 
 type recordTypeRegistry struct {
 	In  string
@@ -28,87 +26,123 @@ func newRecordTypeRegistry() *recordTypeRegistry {
 
 var RecordTypeRegistry = newRecordTypeRegistry()
 
-func getBucket(transaction *bolt.Tx) *bolt.Bucket {
-	bucket := transaction.Bucket([]byte(BucketName))
-	if bucket == nil {
-		fmt.Println(messages.CreatingBucket)
-		newBucket, err := transaction.CreateBucketIfNotExists([]byte(BucketName))
+func openOrCreateDb() *os.File {
+	filePath := config.GetLocalDataStorePath()
+
+	if _, err := os.Stat(filePath); os.IsNotExist(err) {
+		file, err := os.Create(filePath)
+
+		if err != nil {
+			log.Fatalln("failed to create .kontrolio.csv", err)
+		}
+
+		writer := csv.NewWriter(file)
+		defer writer.Flush()
+
+		if err := writer.Write([]string{"Time", "Punched"}); err != nil {
+			log.Fatalln("error writing header to .kontrolio.csv", err)
+		}
+
+		return file
+	}
+
+	file, err := os.Open(filePath)
+
+	if err != nil {
+		log.Fatalln("failed to open .kontrolio.csv", err)
+	}
+
+	return file
+}
+
+func readData() ([][]string, error) {
+	file := openOrCreateDb()
+
+	defer file.Close()
+
+	reader := csv.NewReader(file)
+
+	// Skip first line
+	if _, err := reader.Read(); err != nil {
+		return [][]string{}, err
+	}
+
+	records, err := reader.ReadAll()
+
+	if err != nil {
+		return [][]string{}, err
+	}
+
+	return records, nil
+}
+
+func GetRecords() []utils.Record {
+	records, err := readData()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var parsedRecords []utils.Record
+
+	for _, record := range records {
+		time, err := time.Parse(time.RFC3339, record[0])
 
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		return newBucket
-	}
-
-	return bucket
-}
-
-func getDb() *bolt.DB {
-	dbPath := config.GetLocalDataStorePath()
-
-	db, err := bolt.Open(dbPath, 0666, &bolt.Options{Timeout: 1 * time.Second})
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return db
-}
-
-func SaveOfflineRecord() string {
-	db := getDb()
-	var record utils.Record
-
-	err := db.Update(func(transaction *bolt.Tx) error {
-		bucket := getBucket(transaction)
-
-		_, recordType := bucket.Cursor().Last()
-		record = utils.Record{Time: time.Now().In(time.Local), Type: string(recordType)}
-		key, _ := utils.ByteSerializeOfflineRecord(record)
-
-		if record.Type == RecordTypeRegistry.In {
-			bucket.Put(key, []byte(RecordTypeRegistry.Out))
-		} else {
-			bucket.Put(key, []byte(RecordTypeRegistry.In))
+		parsedRecord := utils.Record{
+			Time: time,
+			Type: record[1],
 		}
 
-		return nil
-	})
-
-	if err != nil {
-		log.Fatal(err)
+		parsedRecords = append(parsedRecords, parsedRecord)
 	}
 
-	defer db.Close()
+	return parsedRecords
+}
 
-	if record.Type == RecordTypeRegistry.In {
-		return RecordTypeRegistry.Out
+func SaveRecord() {
+	var serializedRecord []string
+
+	serializedRecord = append(serializedRecord, time.Now().In(time.Local).Format(time.RFC3339))
+
+	currentData, err := readData()
+
+	lastRecord := currentData[len(currentData)-1]
+
+	if lastRecord[1] == RecordTypeRegistry.In {
+		serializedRecord = append(serializedRecord, RecordTypeRegistry.Out)
 	} else {
-		return RecordTypeRegistry.In
+		serializedRecord = append(serializedRecord, RecordTypeRegistry.In)
 	}
-}
-
-func GetOfflineRecords() []string {
-	db := getDb()
-	var records []string
-
-	err := db.View(func(transaction *bolt.Tx) error {
-		bucket := getBucket(transaction)
-
-		cursor := bucket.Cursor()
-
-		for key, value := cursor.First(); key != nil; key, value = cursor.Next() {
-			records = append(records, utils.SerializeOfflineRecord(key, value))
-		}
-
-		return nil
-	})
-
-	defer db.Close()
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return records
+	headers := []string{"Time", "Punched"}
+	currentData = append([][]string{headers}, currentData...)
+	currentData = append(currentData, serializedRecord)
+
+	file, err := os.Create(config.GetLocalDataStorePath())
+
+	if err != nil {
+		log.Fatalln("failed to create .kontrolio.csv", err)
+	}
+
+	writer := csv.NewWriter(file)
+	defer writer.Flush()
+
+	if err := writer.WriteAll(currentData); err != nil {
+		log.Fatalln("error writing header to .kontrolio.csv", err)
+	}
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(messages.FormatPunchMessage(serializedRecord[1]))
+
 }

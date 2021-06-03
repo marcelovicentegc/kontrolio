@@ -13,7 +13,7 @@ const (
 	KontrolioHealthCheckLocal = "http://localhost:3000/api/ht"
 	KontrolioHealthCheck      = "https://kontrolio.com/api/ht"
 	KontrolioConfigFilename   = ".kontrolio.yaml"
-	KontrolioDatabaseFilename = ".kontrolio.db"
+	KontrolioDatabaseFilename = ".kontrolio.csv"
 )
 
 type Config struct {

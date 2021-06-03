@@ -13,20 +13,18 @@ func status(calledAlone bool) {
 	today := utils.BeginningOfDay(time.Now())
 	tomorrow := today.AddDate(0, 0, 1)
 
-	var todaysRecords []string
+	var todaysRecords []utils.Record
 	var nanoseconds int64
 
-	records := db.GetOfflineRecords()
-	for _, serializedRecord := range records {
-		record := utils.DeserializeOfflineRecord(serializedRecord)
+	records := db.GetRecords()
+
+	for _, record := range records {
 		if record.Time.After(today) && record.Time.Before(tomorrow) {
-			todaysRecords = append(todaysRecords, serializedRecord)
+			todaysRecords = append(todaysRecords, record)
 		}
 	}
 
-	for index, serializedTodaysRecord := range todaysRecords {
-		record := utils.DeserializeOfflineRecord(serializedTodaysRecord)
-
+	for index, record := range todaysRecords {
 		// Covers the cases where the client has punched in but haven't
 		// punched out yet, so we compute how much time has passed
 		// between when it punched in and now.
@@ -39,8 +37,8 @@ func status(calledAlone bool) {
 		// but punched out today. Example: you staretd working yesterday
 		// @ 11PM, but only stopped working today @ 2AM.
 		if index == 0 && record.Type == db.RecordTypeRegistry.Out {
-			openedRecordIndex := utils.IndexOf(records, serializedTodaysRecord)
-			openedRecord := utils.DeserializeOfflineRecord(records[openedRecordIndex])
+			openedRecordIndex := utils.IndexOf(records, record)
+			openedRecord := records[openedRecordIndex]
 
 			if openedRecord.Type == db.RecordTypeRegistry.In {
 				nanoseconds = utils.SubtractTime(record.Time, openedRecord.Time)
@@ -50,7 +48,7 @@ func status(calledAlone bool) {
 		}
 
 		if record.Type == db.RecordTypeRegistry.Out {
-			openedRecord := utils.DeserializeOfflineRecord(todaysRecords[index-1])
+			openedRecord := todaysRecords[index-1]
 			nanoseconds = nanoseconds + utils.SubtractTime(openedRecord.Time, record.Time)
 
 			continue

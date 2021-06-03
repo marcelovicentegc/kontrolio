@@ -12,21 +12,15 @@ import (
 )
 
 func logs(tail *string) {
-	records := db.GetOfflineRecords()
+	records := db.GetRecords()
 
-	var parsedRecords []utils.Record
 	var currentDay *time.Time
 	var log []string
 	workWindowNanoseconds := int64(0)
 	workNanoseconds := int64(0)
 
-	for _, serializedRecord := range records {
-		record := utils.DeserializeOfflineRecord(serializedRecord)
-		parsedRecords = append(parsedRecords, record)
-	}
-
-	for index, parsedRecord := range parsedRecords {
-		isLastRecord := index+1 == len(parsedRecords)
+	for index, parsedRecord := range records {
+		isLastRecord := index+1 == len(records)
 
 		if currentDay == nil {
 			endOfDay := utils.EndOfDay(parsedRecord.Time)
@@ -47,8 +41,8 @@ func logs(tail *string) {
 			log = append(log, messages.FormatLogMessageHeader(currentDay))
 		}
 
-		if !isLastRecord && parsedRecords[index+1].Time.Before(*currentDay) {
-			workWindowNanoseconds = workWindowNanoseconds + utils.SubtractTime(parsedRecord.Time, parsedRecords[index+1].Time)
+		if !isLastRecord && records[index+1].Time.Before(*currentDay) {
+			workWindowNanoseconds = workWindowNanoseconds + utils.SubtractTime(parsedRecord.Time, records[index+1].Time)
 		}
 
 		log = append(log, messages.FormatLogMessage(parsedRecord))
@@ -56,7 +50,7 @@ func logs(tail *string) {
 		// We compute worked hours from records of type
 		// "out"
 		if parsedRecord.Type == db.RecordTypeRegistry.Out {
-			workNanoseconds = workNanoseconds + utils.SubtractTime(parsedRecords[index-1].Time, parsedRecord.Time)
+			workNanoseconds = workNanoseconds + utils.SubtractTime(records[index-1].Time, parsedRecord.Time)
 		}
 
 		// This condition means that we reached the last log,
