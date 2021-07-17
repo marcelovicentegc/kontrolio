@@ -14,18 +14,27 @@ func getHomePath() string {
 	return usr.HomeDir + "/"
 }
 
+func getFile(filename string) string {
+	homePath := getHomePath()
+	return homePath + filename
+}
+
 // GetConfigFilePath returns the file path
 // for .kontrolio.yaml configuration file
 func GetConfigFilePath() string {
-	homePath := getHomePath()
-	filename := KontrolioConfigFilename
-	return homePath + filename
+	return getFile(KontrolioConfigFilename)
 }
 
 // GetLocalDataStorePath returns Kontrolio's
 // local database path.
 func GetLocalDataStorePath() string {
-	homePath := getHomePath()
-	dbName := KontrolioDatabaseFilename
-	return homePath + dbName
+	return getFile(KontrolioDatabaseFilename)
+}
+
+func GetGoogleTokenPath() string {
+	return getFile(KontrolioGoogleTokenFilename)
+}
+
+func GetGoogleCredentialsPath() string {
+	return getFile(KontrolioGoogleCredentialsFilename)
 }

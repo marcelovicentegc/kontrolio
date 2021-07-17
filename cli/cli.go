@@ -32,6 +32,14 @@ func Kontrolio() {
 				},
 			},
 			{
+				Name:  "push",
+				Usage: "Push your records to Google Drive",
+				Action: func(ctx *cli.Context) error {
+					push()
+					return nil
+				},
+			},
+			{
 				Name:    "status",
 				Aliases: []string{"s"},
 				Usage:   "Check how many hours you have worked today",
