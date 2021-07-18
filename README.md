@@ -8,7 +8,9 @@
 
 ---
 
-![kontrolio logs](./assets/logs.png)
+<p align="center">
+  <img alt="kontrolio logs" src="./assets/logs.png" height="600" />
+</p>
 
 ---
 
