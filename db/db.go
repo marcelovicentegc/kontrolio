@@ -3,6 +3,7 @@ package db
 import (
 	"encoding/csv"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"time"
@@ -26,45 +27,30 @@ func newRecordTypeRegistry() *recordTypeRegistry {
 
 var RecordTypeRegistry = newRecordTypeRegistry()
 
-func openOrCreateDb() *os.File {
-	filePath := config.GetLocalDataStorePath()
-
-	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		file, err := os.Create(filePath)
-
-		if err != nil {
-			log.Fatalln("failed to create .kontrolio.csv", err)
-		}
-
-		writer := csv.NewWriter(file)
-		defer writer.Flush()
-
-		if err := writer.Write([]string{"Time", "Punched"}); err != nil {
-			log.Fatalln("error writing header to .kontrolio.csv", err)
-		}
-
-		return file
-	}
-
-	file, err := os.Open(filePath)
-
-	if err != nil {
-		log.Fatalln("failed to open .kontrolio.csv", err)
-	}
-
-	return file
-}
-
 func readData() ([][]string, error) {
-	file := openOrCreateDb()
+	dataStorePath := config.GetLocalDataStorePath()
 
+	// Opens existing data store file or creates one
+	file, err := os.OpenFile(dataStorePath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
+	if err != nil {
+		log.Fatalln("failed to open or create "+dataStorePath, err)
+	}
 	defer file.Close()
 
 	reader := csv.NewReader(file)
 
-	// Skip first line
-	if _, err := reader.Read(); err != nil {
-		return [][]string{}, err
+	// Write headers if file is empty
+	if _, err := reader.Read(); err == io.EOF {
+		writer := csv.NewWriter(file)
+		defer writer.Flush()
+
+		headers := []string{"Time", "Punched"}
+
+		if err := writer.Write(headers); err != nil {
+			log.Fatalln("error writing headers to "+dataStorePath, err)
+		}
+
+		return [][]string{}, nil
 	}
 
 	records, err := reader.ReadAll()
@@ -103,46 +89,48 @@ func GetRecords() []utils.Record {
 	return parsedRecords
 }
 
+// SaveRecord saves a record on the punch command.
 func SaveRecord() {
 	var serializedRecord []string
+	dataStorePath := config.GetLocalDataStorePath()
 
 	serializedRecord = append(serializedRecord, time.Now().In(time.Local).Format(time.RFC3339))
 
 	currentData, err := readData()
 
-	lastRecord := currentData[len(currentData)-1]
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	if lastRecord[1] == RecordTypeRegistry.In {
-		serializedRecord = append(serializedRecord, RecordTypeRegistry.Out)
+	currentDataLength := len(currentData)
+
+	var lastRecord []string
+
+	if currentDataLength > 0 {
+		lastRecord = currentData[len(currentData)-1]
+
+		if lastRecord[1] == RecordTypeRegistry.In {
+			serializedRecord = append(serializedRecord, RecordTypeRegistry.Out)
+		} else {
+			serializedRecord = append(serializedRecord, RecordTypeRegistry.In)
+		}
 	} else {
 		serializedRecord = append(serializedRecord, RecordTypeRegistry.In)
 	}
 
+	file, err := os.OpenFile(dataStorePath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln("failed to open or create "+dataStorePath, err)
 	}
-
-	headers := []string{"Time", "Punched"}
-	currentData = append([][]string{headers}, currentData...)
-	currentData = append(currentData, serializedRecord)
-
-	file, err := os.Create(config.GetLocalDataStorePath())
-
-	if err != nil {
-		log.Fatalln("failed to create .kontrolio.csv", err)
-	}
+	defer file.Close()
 
 	writer := csv.NewWriter(file)
 	defer writer.Flush()
 
-	if err := writer.WriteAll(currentData); err != nil {
-		log.Fatalln("error writing header to .kontrolio.csv", err)
-	}
-
-	if err != nil {
-		log.Fatal(err)
+	// Write most recent installation status
+	if err := writer.Write(serializedRecord); err != nil {
+		log.Fatalln("error writing data to "+dataStorePath, err)
 	}
 
 	fmt.Println(messages.FormatPunchMessage(serializedRecord[1]))
-
 }
