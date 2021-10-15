@@ -59,7 +59,7 @@ const binPath = path.join(installDir, binName);
 
 const install = async () => {
   const { GOLANG_TARGET } = platform;
-  const url = `${repository.url}/releases/download/v${version}/kontrolio-cli_${version}_${GOLANG_TARGET}.tar.gz`;
+  const url = `${repository.url}/releases/download/v${version}/kontrolio_${version}_${GOLANG_TARGET}.tar.gz`;
 
   fs.mkdirSync(installDir, { recursive: true });
 
