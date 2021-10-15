@@ -58,8 +58,6 @@ GLOBAL OPTIONS:
 
 In case you receive an `EACESS` error while trying to execute `kontrolio` after installing it with `npm` or `yarn`, change the file permissions with `chmod 755 <path_to_binaries>`.
 
-## About
-
 ## Development
 
 Make sure you have a `.kontrolio.yaml` file under your home directory (`/home/marcelo` on Linux, `/Users/Marcelo` on macOs, `C:\Users\Marcelo` on Windows) with `dev` set to `true`, like this:
@@ -67,3 +65,5 @@ Make sure you have a `.kontrolio.yaml` file under your home directory (`/home/ma
 ```yaml
 dev: true
 ```
+
+## [Changelog](https://github.com/marcelovicentegc/kontrolio/releases)
