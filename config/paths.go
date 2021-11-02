@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os/user"
+	"path/filepath"
 )
 
 func getHomePath() string {
@@ -14,7 +15,7 @@ func getHomePath() string {
 	return usr.HomeDir + "/"
 }
 
-func getFile(filename string) string {
+func getFilePath(filename string) string {
 	homePath := getHomePath()
 	return homePath + filename
 }
@@ -22,19 +23,22 @@ func getFile(filename string) string {
 // GetConfigFilePath returns the file path
 // for .kontrolio.yaml configuration file
 func GetConfigFilePath() string {
-	return getFile(KontrolioConfigFilename)
+	return getFilePath(KontrolioConfigFilename)
 }
 
 // GetLocalDataStorePath returns Kontrolio's
 // local database path.
 func GetLocalDataStorePath() string {
-	return getFile(KontrolioDatabaseFilename)
+	return getFilePath(KontrolioDatabaseFilename)
 }
 
-func GetGoogleTokenPath() string {
-	return getFile(KontrolioGoogleTokenFilename)
-}
-
+// GetGoogleCredentialsPath returns Kontrolio's
+// credentials.json file path.
 func GetGoogleCredentialsPath() string {
-	return getFile(KontrolioGoogleCredentialsFilename)
+	filePath, err := filepath.Abs("./" + KontrolioGoogleCredentialsFilename)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return filePath
 }

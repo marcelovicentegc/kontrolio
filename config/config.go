@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	KontrolioHealthCheckLocal          = "http://localhost:3000/api/ht"
-	KontrolioHealthCheck               = "https://kontrolio.com/api/ht"
+	KontrolioHealthCheckLocal          = "http://localhost:3000/api"
+	KontrolioHealthCheck               = "https://kontrolio.com/api"
 	KontrolioConfigFilename            = ".kontrolio.yaml"
 	KontrolioDatabaseFilename          = ".kontrolio.csv"
-	KontrolioGoogleTokenFilename       = ".kontrolio.google.token.json"
-	KontrolioGoogleCredentialsFilename = ".kontrolio.google.credentials.json"
+	KontrolioGoogleCredentialsFilename = "credentials.json"
+	KontrolioGoogleScope               = "https://www.googleapis.com/auth/drive.file"
 )
 
 type Config struct {
