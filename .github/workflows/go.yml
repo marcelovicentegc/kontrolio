@@ -32,6 +32,7 @@ jobs:
         run: go test -v ./...
 
   goreleaser:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
     needs: build
     runs-on: ubuntu-latest
     steps:

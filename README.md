@@ -17,12 +17,12 @@
 ## Installation
 
 - You can:
-  - Install with homebrew if you're a Mac user :beer::
+  - Install with homebrew if you're on a Mac or Linux:
     - `brew install marcelovicentegc/taps/kontrolio`
-  - Install it with your favorite package manager:
+  - Install it with Node package managers for any platform:
     - `yarn global add @kontrolio/cli`
     - `npm i -g @kontrolio/cli`
-  - [Download the binaries for Linux (64 and 32 bit), macOS or Windows here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
+  - [Or download the binaries for Linux (64 and 32 bit), macOS or Windows here](https://github.com/marcelovicentegc/kontrolio-cli/releases/latest)
 
 See [Troubleshooting](#troubleshooting) if you have any issues on installation.
 
