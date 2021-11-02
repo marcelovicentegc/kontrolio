@@ -9,22 +9,22 @@ builds:
       - freebsd
 
 brews:
-  name: kontrolio
-  goarm: 6
+  - name: kontrolio
+    goarm: 6
 
-  tap:
-    owner: marcelovicentegc
-    name: homebrew-taps
-    branch: main
+    tap:
+      owner: marcelovicentegc
+      name: homebrew-taps
+      branch: main
 
-  commit_author:
-    name: marcelovicentegc
-    email: marcelovicentegc@gmail.com
+    commit_author:
+      name: marcelovicentegc
+      email: marcelovicentegc@gmail.com
 
-  commit_msg_template: "chore({{ .ProjectName }}): bump version {{ .Tag }}"
-  homepage: "https://kontrolio.com/"
-  description: "Time tracking through your CLI."
-  license: "MIT"
+    commit_msg_template: "chore({{ .ProjectName }}): bump version {{ .Tag }}"
+    homepage: "https://kontrolio.com/"
+    description: "Time tracking through your CLI."
+    license: "MIT"
 
-  test: |
-    system "#{bin}/kontrolio --version"
+    test: |
+      system "#{bin}/kontrolio --version"
