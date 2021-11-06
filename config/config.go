@@ -9,15 +9,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-const (
-	KontrolioHealthCheckLocal          = "http://localhost:3000/api"
-	KontrolioHealthCheck               = "https://kontrolio.com/api"
-	KontrolioConfigFilename            = ".kontrolio.yaml"
-	KontrolioDatabaseFilename          = ".kontrolio.csv"
-	KontrolioGoogleCredentialsFilename = "credentials.json"
-	KontrolioGoogleScope               = "https://www.googleapis.com/auth/drive.file"
-)
-
+// Kontrolio's config file ($HOME/.kontrolio.yml) type definition
 type Config struct {
 	ApiKey      string   `yaml:"api_key"`
 	Dev         string   `yaml:"dev"`
@@ -26,9 +18,7 @@ type Config struct {
 	WorkingTime string   `yaml:"working_time"`
 }
 
-// GetConfig finds and reads the
-// configuration file, returning
-// its parsed data
+// GetConfig finds and reads the configuration file, returning its parsed data
 func GetConfig() *Config {
 	filePath := GetConfigFilePath()
 

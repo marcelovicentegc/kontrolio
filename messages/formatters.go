@@ -25,3 +25,7 @@ func FormatLogMessage(record utils.Record) string {
 func FormatStatusMessage(workTimeNanoseconds int64) string {
 	return ColorGreenBold(WordayStatus + time.Duration(workTimeNanoseconds).String() + "\n")
 }
+
+func FormatSuccessfullUploadMessage(filename string) string {
+	return ColorGreenBold(filename + SuccessfulUploadTo + GoogleDrive + "\n")
+}

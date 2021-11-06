@@ -5,12 +5,15 @@ import (
 )
 
 const (
-	WordayStatus           = "\nToday, you've worked: "
-	PunchSuccess           = " sucessfully."
-	DevEnvironment         = "ATTENTION! You're online but this is a DEVELOPMENT environment."
-	CreatingBucket         = "\nBucket doesn't exist, creating it...\n"
-	DoneConfiguring        = "\n✨ Nice! You can change what you've just set anytime by running "
-	KontrolioConfigCommand = "kontrolio config"
+	WordayStatus            = "\nToday, you've worked: "
+	PunchSuccess            = " sucessfully."
+	DevEnvironment          = "ATTENTION! You're online but this is a DEVELOPMENT environment."
+	CreatingBucket          = "\nBucket doesn't exist, creating it...\n"
+	DoneConfiguring         = "\n✨ Nice! You can change what you've just set anytime by running "
+	KontrolioConfigCommand  = "kontrolio config"
+	OAuthAuthenticationFlow = "The authentication flow has completed. You may close this window."
+	SuccessfulUploadTo      = " successfully uploaded to your "
+	GoogleDrive             = "Google Drive"
 )
 
 var (
