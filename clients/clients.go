@@ -16,11 +16,11 @@ import (
 	"google.golang.org/api/option"
 )
 
-func getClient(ctx context.Context, oauthConfig *oauth2.Config) *http.Client {
+func getDriveClient(ctx context.Context, oauthConfig *oauth2.Config) *http.Client {
 	authURL := oauthConfig.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
 	utils.OpenBrowser(authURL)
 
-	authCode := runLocalOAuthServer()
+	authCode := runLocalOAuthServer(config.GoogleDriveOAuthCallback)
 
 	token, err := oauthConfig.Exchange(context.TODO(), authCode)
 	if err != nil {
@@ -52,7 +52,7 @@ func UploadFileToDrive() {
 	if err != nil {
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
 	}
-	client := getClient(ctx, configFromJson)
+	client := getDriveClient(ctx, configFromJson)
 
 	service, err := drive.NewService(ctx, option.WithHTTPClient(client))
 	if err != nil {

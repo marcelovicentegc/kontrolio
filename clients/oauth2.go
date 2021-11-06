@@ -7,16 +7,15 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/marcelovicentegc/kontrolio-cli/config"
 	"github.com/marcelovicentegc/kontrolio-cli/messages"
 )
 
-func runLocalOAuthServer() string {
+func runLocalOAuthServer(oauthEndpoint string) string {
 	mux := http.NewServeMux()
 	server := http.Server{Addr: ":8080", Handler: mux}
 	authCodeChannel := make(chan string)
 
-	mux.HandleFunc(config.GoogleDriveOAuthCallback, func(writer http.ResponseWriter, request *http.Request) {
+	mux.HandleFunc(oauthEndpoint, func(writer http.ResponseWriter, request *http.Request) {
 		err := request.ParseForm()
 		if err != nil {
 			fmt.Fprintf(os.Stdout, "could not parse query: %v", err)
