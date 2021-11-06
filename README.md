@@ -46,6 +46,7 @@ COMMANDS:
    config, c              Configure Kontrolio
    logs, l                Navigate through all your records
    punch, p               Punch your clock
+   push                   Push your records to Google Drive
    status, s              Check how many hours have you worked today
    help, h                Shows a list of commands or help for one command
 
