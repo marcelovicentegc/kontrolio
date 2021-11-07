@@ -25,6 +25,16 @@ jobs:
               dep ensure
           fi
 
+      - name: Create credentials.json
+        uses: sergeysova/jq-action@v2
+        id: credentials
+        with:
+          cmd: sh scripts/gen_credentials.sh
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          PROJECT_ID: ${{ secrets.ACCESS_TOKEN }}
+          CLIENT_SECRET: ${{ secrets.ACCESS_TOKEN }}
+
       - name: Build
         run: go build -v ./...
 
@@ -40,10 +50,22 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
           go-version: 1.15
+
+      - name: Create credentials.json
+        uses: sergeysova/jq-action@v2
+        id: credentials
+        with:
+          cmd: sh scripts/gen_credentials.sh
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          PROJECT_ID: ${{ secrets.ACCESS_TOKEN }}
+          CLIENT_SECRET: ${{ secrets.ACCESS_TOKEN }}
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
